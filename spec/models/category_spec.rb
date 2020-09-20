@@ -93,7 +93,6 @@ RSpec.describe Category, type: :model do
         expect(Category.count).to eq 1
         expect(Category.first.name).to eq 'Grocery'
       end
-
     end
   end
 end
