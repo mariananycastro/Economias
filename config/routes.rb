@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
   root to: "home#index"
-  resource :categories, only: %i[new]
+  resources :categories, only: %i[new create edit update destroy]
 end
