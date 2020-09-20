@@ -2,6 +2,8 @@
 
 # Categories used to classify account.
 # Ex: Food, Transportation, Investiment, Health
-class CatetegoriesController < ApplicationController
-  def new; end
+class CategoriesController < ApplicationController
+  def new
+    @category = Category.new
+  end
 end
