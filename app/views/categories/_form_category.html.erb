@@ -2,12 +2,14 @@
   <%= f.label :name, 'Nome:'%>
   <%= f.text_field :name %>
   <%= f.submit 'Salvar'%>
-<% end %>|
+<% end %>
 
-<% @categories.each do |category| %>
-  <p>
-    <%= category.name%>
-    <%= link_to "Editar", edit_category_path(category.id) %>
-    <%= link_to "Deletar", category_path(category.id), method: :delete %>
-  </p> 
+<% if !@categories.empty? %>
+  <% @categories.each do |category| %>
+    <p>
+      <%= category.name %>
+      <%= link_to "Editar", edit_category_path(category.id) %>
+      <%= link_to "Deletar", category_path(category.id), method: :delete %>
+    </p>
+  <% end %>
 <% end %> 

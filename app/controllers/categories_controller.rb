@@ -34,7 +34,7 @@ class CategoriesController < ApplicationController
     render :new
   end
 
-private
+  private
 
   def params_category
     params.require(:category).permit(:name)
