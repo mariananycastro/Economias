@@ -1,0 +1,8 @@
+<%= form_with model: @account, local: true do |f| %>
+  <%= f.label :name, 'Nome:'%>
+  <%= f.text_field :name %>
+  <%= f.label :active, 'Ativa:' %>
+  <%= f.check_box :active, class: 'check_box', checked_value: true %>
+  <%= f.collection_select :account_type_id, @account_type, :id,:name, include_blank: true %>
+  <%= f.submit 'Salvar' %>
+<% end %>
