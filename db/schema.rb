@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_20_164650) do
+ActiveRecord::Schema.define(version: 2020_09_20_231756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2020_09_20_164650) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
-    t.boolean "status"
+    t.boolean "active"
     t.decimal "initial_value"
     t.bigint "account_type_id"
     t.index ["account_type_id"], name: "index_accounts_on_account_type_id"
