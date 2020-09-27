@@ -15,7 +15,7 @@
     <p> Nome: <%= account.name %> </p>
     <p> Ativa: <%= account.active %> </p>
     <p> Valor Inicial: <%= account.initial_value %> </p>
-    <p> Tipo de conta: <%= AccountType.find(account.account_type_id).name %> </p>
+    <p> Tipo de conta: <%= account.account_type_name %> </p>
     <p> Prazo: <%= account.expiration_type %> </p>
       <%= link_to "Editar", edit_account_path(account.id) %>
       <%= link_to "Deletar", account_path(account.id), method: :delete %>
