@@ -7,5 +7,5 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
 
-  enum expiration_type: { dont_have: 0, short: 10, medium: 20, long: 30 }
+  enum expiration_type: { short: 0, medium: 10, long: 20 }
 end

@@ -1,15 +1,15 @@
-# frozen_string_literal true
+# frozen_string_literal: true
 
 # account that holds all transactions
 class AccountsController < ApplicationController
   def new
-    @account = Account.new
+    @account = AccountDecorator.new(Account.new).decorate
     @account_types = AccountType.all
     @accounts = accounts
   end
 
   def create
-    @account = Account.new(params_account)
+    @account = AccountDecorator.new(Account.new(params_account)).decorate
 
     return redirect_to root_path if @account.save
 
@@ -45,11 +45,11 @@ class AccountsController < ApplicationController
 
   def params_account
     params.require(:account)
-      .permit(:name,
-              :active,
-              :initial_value, 
-              :account_type_id,
-              :expiration_type)
+          .permit(:name,
+                  :active,
+                  :initial_value,
+                  :account_type_id,
+                  :expiration_type)
   end
 
   def account

@@ -1,0 +1,8 @@
+pt-BR:
+  activerecord:
+    attributes:
+      account:
+        expiration_types:
+          short: "Curto"
+          medium: "Médio"
+          long: "Longo"

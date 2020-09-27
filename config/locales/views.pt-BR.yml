@@ -1,0 +1,31 @@
+pt-BR:
+  home:
+    index:
+      create_category: 'Criar Categoria'
+      create_account_type: 'Criar Tipo de Conta'
+      create_account: 'Criar Conta'
+
+  account_types:
+    form_account_type:
+      name: 'Nome:'
+      save: 'Salvar'
+      edit: 'Editar'
+      delete: 'Deletar'
+
+  accounts:
+    form_account:
+      name: 'Nome:'
+      opening_balance: 'Saldo Inicial'
+      active: 'Ativa'
+      account_type: 'Tipo de conta'
+      expiration_type: 'Tipo Investimento'
+      save: 'Salvar'
+      edit: 'Editar'
+      delete: 'Deletar'
+
+  categories:
+    form_category:
+      name: 'Nome:'
+      save: 'Salvar'
+      edit: 'Editar'
+      delete: 'Deletar'

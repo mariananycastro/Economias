@@ -1,15 +1,15 @@
 <%= form_with model: @account_type do |f| %>
-  <%= f.label :name, 'Nome' %>
+  <%= f.label :name, t('.name') %>
   <%= f.text_field :name %>
-  <%= f.submit 'Salvar' %>
+  <%= f.submit t('.save') %>
 <% end %>
 
 <% unless @account_types.empty? %>
   <% @account_types.each do |type| %>
     <p>
       <%= type.name %>
-      <%= link_to 'Editar', edit_account_type_path(type.id) %>
-      <%= link_to 'Deletar', account_type_path(type.id), method: :delete %>
+      <%= link_to t('.edit'), edit_account_type_path(type.id) %>
+      <%= link_to t('.delete'), account_type_path(type.id), method: :delete %>
     </p>
   <% end %>
 <% end %>

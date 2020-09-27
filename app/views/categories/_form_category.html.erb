@@ -1,15 +1,15 @@
 <%= form_with model:@category, local: true do |f| %>
-  <%= f.label :name, 'Nome:'%>
+  <%= f.label :name, t('.name') %>
   <%= f.text_field :name %>
-  <%= f.submit 'Salvar'%>
+  <%= f.submit t('.save') %>
 <% end %>
 
 <% unless @categories.empty? %>
   <% @categories.each do |category| %>
     <p>
       <%= category.name %>
-      <%= link_to "Editar", edit_category_path(category.id) %>
-      <%= link_to "Deletar", category_path(category.id), method: :delete %>
+      <%= link_to t('.edit') , edit_category_path(category.id) %>
+      <%= link_to t('.delete') , category_path(category.id), method: :delete %>
     </p>
   <% end %>
 <% end %> 

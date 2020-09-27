@@ -1,24 +1,26 @@
 <%= form_with model: @account, local: true do |f| %>
-  <%= f.label :name, 'Nome:'%>
+  <%= f.label :name, t('.name') %>
   <%= f.text_field :name %>
-  <%= f.label :initial_value, 'Saldo Inicial:'%>
+  <%= f.label :initial_value, t('.opening_balance')%>
   <%= f.number_field :initial_value, step: 0.01 %>
-  <%= f.label :active, 'Ativa:' %>
+  <%= f.label :active, t('.active') %>
   <%= f.check_box :active, class: 'check_box', checked_value: true %>
+   <%= f.label :initial_value, t('.account_type') %>
   <%= f.collection_select :account_type_id, @account_types, :id,:name, include_blank: true %>
-  <%= f.select :expiration_type, options_for_select(Account.expiration_types.map {|k, _v| [k.humanize.capitalize, k]}) %>
-  <%= f.submit 'Salvar' %>
+   <%= f.label :initial_value, t('.expiration_type') %>
+  <%= f.select :expiration_type, options_for_select(@account.expiration_names) %>
+  <%= f.submit t('.save') %>
 <% end %>
 
 <% unless @accounts.empty? %>
   <% @accounts.each do |account| %>
-    <p> Nome: <%= account.name %> </p>
-    <p> Ativa: <%= account.active %> </p>
-    <p> Valor Inicial: <%= account.initial_value %> </p>
-    <p> Tipo de conta: <%= account.account_type_name %> </p>
-    <p> Prazo: <%= account.expiration_type %> </p>
-      <%= link_to "Editar", edit_account_path(account.id) %>
-      <%= link_to "Deletar", account_path(account.id), method: :delete %>
+    <p> <%= t('.name') %> <%= account.name %> </p>
+    <p> <%= t('.active') %> <%= account.active %> </p>
+    <p> <%= t('.opening_balance') %> <%= account.initial_value %> </p>
+    <p> <%= t('.account_type') %> <%= account.account_type_name %> </p>
+    <p> <%= t('.expiration_type') %> <%= account.expiration_type %> </p>
+      <%= link_to t('.save'), edit_account_path(account.id) %>
+      <%= link_to t('.delete') , account_path(account.id), method: :delete %>
     </p>
   <% end %>
 <% end %> 
