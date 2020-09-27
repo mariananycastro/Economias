@@ -4,7 +4,7 @@
   <%= f.submit 'Salvar' %>
 <% end %>
 
-<% if !@account_types.empty? %>
+<% unless @account_types.empty? %>
   <% @account_types.each do |type| %>
     <p>
       <%= type.name %>

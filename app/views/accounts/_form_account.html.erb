@@ -1,8 +1,24 @@
 <%= form_with model: @account, local: true do |f| %>
   <%= f.label :name, 'Nome:'%>
   <%= f.text_field :name %>
+  <%= f.label :initial_value, 'Saldo Inicial:'%>
+  <%= f.number_field :initial_value, step: 0.01 %>
   <%= f.label :active, 'Ativa:' %>
   <%= f.check_box :active, class: 'check_box', checked_value: true %>
-  <%= f.collection_select :account_type_id, @account_type, :id,:name, include_blank: true %>
+  <%= f.collection_select :account_type_id, @account_types, :id,:name, include_blank: true %>
+  <%= f.select :expiration_type, options_for_select(Account.expiration_types.map {|k, _v| [k.humanize.capitalize, k]}) %>
   <%= f.submit 'Salvar' %>
 <% end %>
+
+<% unless @accounts.empty? %>
+  <% @accounts.each do |account| %>
+    <p> Nome: <%= account.name %> </p>
+    <p> Ativa: <%= account.active %> </p>
+    <p> Valor Inicial: <%= account.initial_value %> </p>
+    <p> Tipo de conta: <%= AccountType.find(account.account_type_id).name %> </p>
+    <p> Prazo: <%= account.expiration_type %> </p>
+      <%= link_to "Editar", edit_account_path(account.id) %>
+      <%= link_to "Deletar", account_path(account.id), method: :delete %>
+    </p>
+  <% end %>
+<% end %> 

@@ -3,8 +3,9 @@
 # Account that holds all transactions
 class Account < ApplicationRecord
   belongs_to :account_type
-  has_one :expiration_type
   has_many :transactions
 
-  validates :name, :status, presence: true
+  validates :name, presence: true
+
+  enum expiration_type: { dont_have: 0, short: 10, medium: 20, long: 30 }
 end

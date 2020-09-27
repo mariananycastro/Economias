@@ -4,7 +4,7 @@
   <%= f.submit 'Salvar'%>
 <% end %>
 
-<% if !@categories.empty? %>
+<% unless @categories.empty? %>
   <% @categories.each do |category| %>
     <p>
       <%= category.name %>
