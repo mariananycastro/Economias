@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_20_231756) do
+ActiveRecord::Schema.define(version: 2020_09_27_154057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,9 @@ ActiveRecord::Schema.define(version: 2020_09_20_231756) do
     t.boolean "active"
     t.decimal "initial_value"
     t.bigint "account_type_id"
+    t.bigint "expiration_type_id"
     t.index ["account_type_id"], name: "index_accounts_on_account_type_id"
+    t.index ["expiration_type_id"], name: "index_accounts_on_expiration_type_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -33,5 +35,25 @@ ActiveRecord::Schema.define(version: 2020_09_20_231756) do
     t.string "name"
   end
 
+  create_table "expiration_types", force: :cascade do |t|
+    t.integer "period", default: 0
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "name"
+    t.decimal "value"
+    t.date "date"
+    t.integer "type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "account_id"
+    t.bigint "category_id"
+    t.index ["account_id"], name: "index_transactions_on_account_id"
+    t.index ["category_id"], name: "index_transactions_on_category_id"
+  end
+
   add_foreign_key "accounts", "account_types"
+  add_foreign_key "accounts", "expiration_types"
+  add_foreign_key "transactions", "accounts"
+  add_foreign_key "transactions", "categories"
 end
