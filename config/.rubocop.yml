@@ -65,6 +65,9 @@ AllCops:
     - 'vendor/**/*'
     - '.git/**/*'
     - 'bin/**/*'
+    - "db/**/*"
+    - "**/spec_helper.rb"
+    - "config/**/*"
   # Default formatter will be used if no `-f/--format` option is given.
   DefaultFormatter: progress
   # Cop names are displayed in offense messages by default. Change behavior
@@ -2012,7 +2015,7 @@ Metrics/BlockLength:
   CountComments: false  # count full line comments?
   Max: 25
   CountAsOne: []
-  ExcludedMethods:
+  ExcludedMethods: ["describe", "context", "feature", "scenario", "let", "it"]
     # By default, exclude the `#refine` method, as it tends to have larger
     # associated blocks.
     - refine
