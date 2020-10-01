@@ -33,7 +33,7 @@ RSpec.describe AccountType, type: :model do
 
           subject.valid?
 
-          expect(subject.errors[:name].pop).to eq "has already been taken"
+          expect(subject.errors[:name]).to include("has already been taken")
           expect(AccountType.first.name).to eq "Checking Account"
           expect(AccountType.count).to eq 1
         end
@@ -47,7 +47,7 @@ RSpec.describe AccountType, type: :model do
           
           subject.valid?
           
-          expect(subject.errors[:name].pop).to eq "can't be blank"
+          expect(subject.errors[:name]).to include("can't be blank")
           expect(AccountType.first.name).to eq "Checking Account"
           expect(AccountType.count).to eq 1
         end
@@ -76,7 +76,7 @@ RSpec.describe AccountType, type: :model do
         
         subject.valid?
 
-        expect(subject.errors[:name].pop).to eq "has already been taken"
+        expect(subject.errors[:name]).to include("has already been taken")
         expect(AccountType.count).to eq 2
         expect(AccountType.first.name).to eq 'Investiment'
         expect(AccountType.last.name).to eq 'Checking Account'
@@ -87,7 +87,7 @@ RSpec.describe AccountType, type: :model do
         
         subject.valid?
 
-        expect(subject.errors[:name].pop).to eq "can't be blank"
+        expect(subject.errors[:name]).to include("can't be blank")
         expect(AccountType.count).to eq 1
         expect(AccountType.first.name).to eq 'Checking Account'
       end

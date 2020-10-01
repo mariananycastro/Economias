@@ -2015,7 +2015,7 @@ Metrics/BlockLength:
   CountComments: false  # count full line comments?
   Max: 25
   CountAsOne: []
-  ExcludedMethods: ["describe", "context", "feature", "scenario", "let", "it"]
+  ExcludedMethods:
     # By default, exclude the `#refine` method, as it tends to have larger
     # associated blocks.
     - refine
@@ -2655,7 +2655,7 @@ Style/ClassAndModuleChildren:
   # have the knowledge to perform either operation safely and thus requires
   # manual oversight.
   SafeAutoCorrect: false
-  Enabled: true
+  Enabled: false
   VersionAdded: '0.19'
   #
   # Basically there are two different styles:
@@ -2671,7 +2671,7 @@ Style/ClassAndModuleChildren:
   #   end
   #
   # The compact style is only forced, for classes or modules with one child.
-  EnforcedStyle: nested
+  EnforcedStyle: compact
   SupportedStyles:
     - nested
     - compact
