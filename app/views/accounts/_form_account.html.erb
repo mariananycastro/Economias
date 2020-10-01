@@ -19,7 +19,7 @@
     <p> <%= t('.opening_balance') %> <%= account.initial_value %> </p>
     <p> <%= t('.account_type') %> <%= account.account_type_name %> </p>
     <p> <%= t('.expiration_type') %> <%= account.expiration_type %> </p>
-      <%= link_to t('.save'), edit_account_path(account.id) %>
+      <%= link_to t('.edit'), edit_account_path(account.id) %>
       <%= link_to t('.delete') , account_path(account.id), method: :delete %>
     </p>
   <% end %>

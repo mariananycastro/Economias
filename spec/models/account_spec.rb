@@ -9,7 +9,7 @@ RSpec.describe Account, type: :model do
     end
 
     context 'failed' do
-      subject { build(:account, name: '', active: '', initial_value: '', expiration_type: '' ) }
+      subject { build(:account, name: nil, active: nil, initial_value: nil, expiration_type: nil, account_type: nil ) }
 
       it 'should raise error' do
         subject.valid?
@@ -25,7 +25,7 @@ RSpec.describe Account, type: :model do
   describe '#create' do
     context 'successfully' do
       let(:account_type) { create(:account_type) }
-      subject { create(:account, name: 'CC Nu', active: '', initial_value: '', expiration_type: 10, account_type: account_type ) }
+      subject { create(:account, name: 'CC Nu', active: nil, initial_value: nil, expiration_type: 10, account_type: account_type ) }
 
       it 'should create an account' do
         expect(subject.name).to eq "CC Nu"
@@ -49,7 +49,7 @@ RSpec.describe Account, type: :model do
 
         expect(new_account.errors[:name]).to include("has already been taken")
         expect(Account.first).to eq account
-        expect(Account.all.count).to eq 1
+        expect(Account.count).to eq 1
       end
     end
   end

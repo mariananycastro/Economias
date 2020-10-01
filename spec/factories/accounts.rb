@@ -3,7 +3,7 @@ FactoryBot.define do
     name { 'CC Nu'}
     active { true }
     initial_value { 0.00 }
-    account_type_id { account_type }
+    account_type_id { create(:account_type).id }
 
     trait :dont_have do 
       expiration_type { 0 }

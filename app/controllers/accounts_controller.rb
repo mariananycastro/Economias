@@ -17,7 +17,7 @@ class AccountsController < ApplicationController
   end
 
   def edit
-    @account = account
+    @account = AccountDecorator.new(account).decorate
     @account_types = AccountType.all
     @accounts = accounts
   end
