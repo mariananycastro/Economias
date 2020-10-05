@@ -4,6 +4,7 @@ pt-BR:
       create_category: 'Criar Categoria'
       create_account_type: 'Criar Tipo de Conta'
       create_account: 'Criar Conta'
+      create_transaction: 'Criar Transação'
 
   account_types:
     form_account_type:
@@ -26,6 +27,18 @@ pt-BR:
   categories:
     form_category:
       name: 'Nome:'
+      save: 'Salvar'
+      edit: 'Editar'
+      delete: 'Deletar'
+
+  transactions:
+    form_transaction:
+      name: 'Nome:'
+      value: 'Valor:'
+      date: 'Data:'
+      type: 'Tipo:'
+      account: 'Conta:'
+      category: 'Categoria:'
       save: 'Salvar'
       edit: 'Editar'
       delete: 'Deletar'

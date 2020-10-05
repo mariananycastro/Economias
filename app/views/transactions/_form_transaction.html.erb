@@ -1,0 +1,30 @@
+<%= form_with model: @transaction, local: true do |f| %>
+  <%= f.label :name, t('.name') %>
+  <%= f.text_field :name %>
+  <%= f.label :value, t('.value') %>
+  <%= f.number_field :value %>
+  <%= f.label :date, t('.date') %>
+  <%= f.date_field :date %>
+  <%= f.label :transaction_type, t('.type') %>
+  <%= f.select :transaction_type, options_for_select(@transaction.type_names) %>
+  <%= f.label :account, t('.account') %>
+  <%= f.collection_select :account_id, @accounts, :id,:name, include_blank: true %>
+  <%= f.label :category, t('.category') %>
+  <%= f.collection_select :category_id, @categories, :id,:name, include_blank: true %>
+  <%= f.submit t('.save') %>
+<% end %>
+
+<% unless @transactions.empty? %>
+  <% @transactions.each do |transaction| %>
+    <p><%=t('.name') %> <%= transaction.name %></p>
+    <p><%=t('.value') %> <%= transaction.value %></p>
+    <p><%=t('.date') %> <%= transaction.date %></p>
+    <p><%=t('.type') %> <%= transaction.transaction_type %></p>
+    <p><%=t('.account') %> <%= transaction.account_name %></p>
+    <p><%=t('.category') %> <%= transaction.category_name %>
+      <%= link_to t('.edit'), edit_transaction_path(transaction.id) %>
+      <%= link_to t('.delete'), transaction_path(transaction.id), method: :delete %>
+    </p>
+  <% end %>
+<% end %>
+

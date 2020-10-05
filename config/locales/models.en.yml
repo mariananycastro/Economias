@@ -6,3 +6,9 @@ en:
           short: "Curto"
           medium: "Médio"
           long: "Longo"
+
+      transaction:
+        types:
+          debit: 'Débito'
+          credit: 'Crédito'
+          transfer: 'Transferência'
