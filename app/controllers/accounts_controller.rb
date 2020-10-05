@@ -4,7 +4,7 @@
 class AccountsController < ApplicationController
   def new
     @account = AccountDecorator.new(Account.new).decorate
-    @account_types = AccountType.all
+    @account_types = ordered_account_types
     @accounts = accounts
   end
 
@@ -18,7 +18,7 @@ class AccountsController < ApplicationController
 
   def edit
     @account = AccountDecorator.new(account).decorate
-    @account_types = AccountType.all
+    @account_types = ordered_account_types
     @accounts = accounts
   end
 
@@ -54,5 +54,9 @@ class AccountsController < ApplicationController
 
   def account
     Account.find(params[:id])
+  end
+
+  def ordered_account_types
+    AccountType.all.order(:name)
   end
 end
