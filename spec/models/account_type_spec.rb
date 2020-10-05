@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe AccountType, type: :model do
   describe '#new' do
     context 'sucessfully' do

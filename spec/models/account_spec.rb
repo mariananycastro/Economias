@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Account, type: :model do
   describe '#new' do
     let(:account_type) { create(:account_type) }

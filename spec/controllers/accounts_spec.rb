@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe AccountsController, type: :controller do
   describe '#new' do
     it 'renders the new template' do
