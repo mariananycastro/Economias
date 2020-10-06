@@ -3,6 +3,7 @@
 class Transaction < ApplicationRecord
   belongs_to :account
   belongs_to :category
+  belongs_to :transfer, optional: true
 
   validates :name, :value, :date, :transaction_type, presence: true
   validates_numericality_of :value, greater_than_or_equal_to: 0.01

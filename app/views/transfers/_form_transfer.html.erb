@@ -1,0 +1,22 @@
+<%= form_with model: @transfer, local: true do |f| %>
+  <%= f.label :name, t('.name') %>
+  <%= f.text_field :name %>
+  <%= f.label :value, t('.value') %>
+  <%= f.number_field :value %>
+  <%= f.label :date, t('.date') %>
+  <%= f.date_field :date %>
+  <%= f.label :origin, t('.account_origin') %>
+  <%= f.collection_select :origin, @accounts, :id,:name, { prompt: t('.select_account') } %>
+  <%= f.label :destiny, t('.account_destiny') %>
+  <%= f.collection_select :destiny, @accounts, :id,:name, { prompt: t('.select_account') } %>
+  <%= f.label :category, t('.category') %>
+  <%= f.collection_select :category_id, @categories, :id,:name, { prompt: t('.select_category') } %>
+  <%= f.submit t('.save') %>
+<% end %>
+
+<% unless @transactions.empty? %>
+  <% @transactions.each do |transaction| %>
+    <p><%=t('.name') %> : <%= transaction.name %></p>
+    <p><%=t('.value') %> : <%= transaction.value %></p>
+  <% end %>
+<% end %>

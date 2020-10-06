@@ -5,6 +5,7 @@ en:
       create_account_type: 'Criar Tipo de Conta'
       create_account: 'Criar Conta'
       create_transaction: 'Criar Transação'
+      create_transfer: 'Criar Transferência'
 
   account_types:
     form_account_type:
@@ -42,4 +43,20 @@ en:
       save: 'Salvar'
       edit: 'Editar'
       delete: 'Deletar'
+
+  transfers:
+    form_transfer:
+      name: 'Nome:'
+      value: 'Valor:'
+      date: 'Data:'
+      type: 'Tipo:'
+      account_origin: 'Conta origem:'
+      account_destiny: 'Conta destino:'
+      category: 'Categoria:'
+      save: 'Salvar'
+      edit: 'Editar'
+      delete: 'Deletar'
+      select_account: 'Selecione uma conta'
+      select_category: 'Selecione uma categoria'
+
   
