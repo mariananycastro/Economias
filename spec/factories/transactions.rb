@@ -1,8 +1,19 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :transaction do
     name { "MyString" }
     value { "9.99" }
     date { "2020-09-27" }
-    type { 1 }
+    account_id {  create(:account).id}
+    category_id {  create(:category).id}
+  
+    trait :debit do
+      transaction_type { 0 }
+    end
+
+    trait :credit do
+      transaction_type { 10 }
+    end
   end
 end

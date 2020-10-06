@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Class that creates transactions: debit, credit or transf
+# Class that creates transactions: debit, credit
 class TransactionsController < ApplicationController
   def new
     @transaction = TransactionDecorator.new(Transaction.new).decorate
