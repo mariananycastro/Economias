@@ -9,6 +9,6 @@ pt-BR:
           
       transaction:
         types:
-          debit: 'Débito'
-          credit: 'Crédito'
+          income: 'Receita'
+          expense: 'Despesa'
           transfer: 'Transferência'

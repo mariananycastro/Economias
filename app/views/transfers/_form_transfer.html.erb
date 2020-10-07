@@ -16,7 +16,15 @@
 
 <% unless @transactions.empty? %>
   <% @transactions.each do |transaction| %>
+    <p><%= transaction.id %></p>
     <p><%=t('.name') %> : <%= transaction.name %></p>
     <p><%=t('.value') %> : <%= transaction.value %></p>
+    <p><%=t('.date') %> : <%= transaction.date %></p>
+    <p> <%= transaction.transaction_type %></p>
+    <p><%=t('.account') %> : <%= transaction.account.name %></p>
+    <p><%=t('.category') %> : <%= transaction.category.name %></p>
+    <p><%= transaction.transfer_id %> </p>
+    <%= link_to t('.edit'), edit_transaction_path(transaction.id) %>
+    <%= link_to t('.delete'), transaction_path(transaction.id), method: :delete %>
   <% end %>
 <% end %>

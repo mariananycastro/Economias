@@ -8,11 +8,11 @@ FactoryBot.define do
     account_id {  create(:account).id}
     category_id {  create(:category).id}
   
-    trait :debit do
+    trait :income do
       transaction_type { 0 }
     end
 
-    trait :credit do
+    trait :expense do
       transaction_type { 10 }
     end
   end
