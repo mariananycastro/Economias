@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Represents transaction on account, can be debit(positive) ou credit(negative)
+# When it belongs to a transfer, each transfer has 2 transaction, debit and credit
 class Transaction < ApplicationRecord
   belongs_to :account
   belongs_to :category
