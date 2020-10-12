@@ -1,0 +1,19 @@
+ <% unless @transactions.empty? %>
+  <% @transactions.each do |transaction| %>
+    <p><%=t('.id') %> <%= transaction.id %></p>
+    <p><%=t('.name') %> : <%= transaction.name %></p>
+    <p><%=t('.value') %> : <%= transaction.value %></p>
+    <p><%=t('.date') %> : <%= transaction.date %></p>
+    <p><%=t('.type') %> <%= transaction.transaction_type %></p>
+    <p><%=t('.account') %> : <%= transaction.account_name %></p>
+    <p><%=t('.category') %> : <%= transaction.category_name %></p>
+    <% if transaction.transfer.nil? %>
+      <%= link_to t('.edit'), edit_transaction_path(transaction.id) %>
+      <%= link_to t('.delete'), transaction_path(transaction.id), method: :delete %>
+    <% else %>
+      <p><%= t('.transfer_id') %> <%= transaction.transfer_id %> </p>
+      <%= link_to t('.edit'), edit_transfer_path(transaction.transfer) %>
+      <%= link_to t('.delete'), transfer_path(transaction.transfer), method: :delete %>
+    <% end %>
+  <% end %>
+<% end %>

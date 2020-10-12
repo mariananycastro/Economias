@@ -6,6 +6,8 @@ class Transfer < ApplicationRecord
   belongs_to :destiny, class_name: 'Transaction'
   has_many :transactions, dependent: :destroy
 
+  accepts_nested_attributes_for :origin, :destiny
+
   validates_presence_of :origin, :destiny
   validate :origin_and_destiny_must_be_different
 

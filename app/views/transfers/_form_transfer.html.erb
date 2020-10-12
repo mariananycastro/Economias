@@ -1,30 +1,20 @@
-<%= form_with model: @transfer, local: true do |f| %>
-  <%= f.label :name, t('.name') %>
-  <%= f.text_field :name %>
-  <%= f.label :value, t('.value') %>
-  <%= f.number_field :value %>
-  <%= f.label :date, t('.date') %>
-  <%= f.date_field :date %>
-  <%= f.label :origin, t('.account_origin') %>
-  <%= f.collection_select :origin, @accounts, :id,:name, { prompt: t('.select_account') } %>
-  <%= f.label :destiny, t('.account_destiny') %>
-  <%= f.collection_select :destiny, @accounts, :id,:name, { prompt: t('.select_account') } %>
-  <%= f.label :category, t('.category') %>
-  <%= f.collection_select :category_id, @categories, :id,:name, { prompt: t('.select_category') } %>
-  <%= f.submit t('.save') %>
-<% end %>
-
-<% unless @transactions.empty? %>
-  <% @transactions.each do |transaction| %>
-    <p><%= transaction.id %></p>
-    <p><%=t('.name') %> : <%= transaction.name %></p>
-    <p><%=t('.value') %> : <%= transaction.value %></p>
-    <p><%=t('.date') %> : <%= transaction.date %></p>
-    <p> <%= transaction.transaction_type %></p>
-    <p><%=t('.account') %> : <%= transaction.account.name %></p>
-    <p><%=t('.category') %> : <%= transaction.category.name %></p>
-    <p><%= transaction.transfer_id %> </p>
-    <%= link_to t('.edit'), edit_transaction_path(transaction.id) %>
-    <%= link_to t('.delete'), transaction_path(transaction.id), method: :delete %>
+<%= form_for @transfer do |f| %>
+  <%= f.fields_for :origin do |ff| %>
+    <%= ff.label :name, t('.name') %>
+    <%= ff.text_field :name %>
+    <%= ff.label :value, t('.value') %>
+    <%= ff.number_field :value %>
+    <%= ff.label :date, t('.date') %>
+    <%= ff.date_field :date %>
+    <%= ff.label :category_id, t('.category') %>
+    <%= ff.collection_select :category_id, @categories, :id, :name, selected: ff.object.category_id %>
+    <%= ff.label :origin_id, t('.account_origin') %>
+    <%= ff.collection_select :origin_id, @accounts, :id, :name, selected: ff.object.account_id %>
   <% end %>
+
+  <%= f.fields_for :destiny do |form| %>
+    <%= form.label :destiny_id, t('.account_destiny') %>
+    <%= form.collection_select :destiny_id, @accounts, :id, :name, selected: form.object.account_id %>
+<% end %>
+  <%= f.submit t('.save') %>
 <% end %>

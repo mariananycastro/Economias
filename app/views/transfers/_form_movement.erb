@@ -1,0 +1,15 @@
+<%= form_for @movement do |f| %>
+  <%= f.label :name, t('.name') %>
+  <%= f.text_field :name %>
+  <%= f.label :value, t('.value') %>
+  <%= f.number_field :value %>
+  <%= f.label :date, t('.date') %>
+  <%= f.date_field :date %>
+  <%= f.label :category_id, t('.category') %>
+  <%= f.collection_select :category_id, @categories, :id,:name, { prompt: t('.select_category') } %>
+  <%= f.label :origin_id, t('.account_origin') %>
+  <%= f.collection_select :origin_id, @accounts, :id,:name, { prompt: t('.select_origin_account') } %>
+  <%= f.label :destiny_id, t('.account_destiny') %>
+  <%= f.collection_select :destiny_id, @accounts, :id,:name, { prompt: t('.select_destiny_account') } %>
+  <%= f.submit t('.save') %>
+<% end %>

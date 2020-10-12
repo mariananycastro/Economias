@@ -2,56 +2,43 @@
 
 # Class that creates transfer with 2 transactions (income and expense)
 class TransfersController < ApplicationController
-  def new
-    @income = Transaction.new
-    @expense = Transaction.new
-    @transfer = Transfer.new
+  def edit
+    @transfer = transfer
+
     @accounts = ordered_accounts
     @categories = ordered_categories
 
-    @transactions = transactions
+    @transactions = TransactionDecorator.new(transactions).decorate
   end
 
-  def create
+  def update
+    @transfer = transfer
+    @params = params
+
     return redirect_to root_path if ActiveRecord::Base.transaction do
-      @income = Transaction.create!(params_income)
-      @expense = Transaction.create!(params_expense)
-      @transfer = Transfer.create!(origin_id: @expense.id, destiny_id: @income.id)
-      @income.update!(transfer: @transfer)
-      @expense.update!(transfer: @transfer)
-    end
-    
-    render :new
-  end
+      origin = Transaction.find(params[:transfer][:origin_attributes][:id])
+      destiny = Transaction.find(params[:transfer][:destiny_attributes][:id])
 
+      origin.update!(params_origin)
+      destiny.update!(params_destiny)
+      @transfer.origin = origin
+      @transfer.destiny = destiny
+      @transfer.save
+    end
+
+    render :edit
+  end
 
   def destroy
-    Transfer.find(params[:transfer]).destroy
+    return redirect_to root_path if transfer.destroy
+
+    render :edit
   end
 
   private
 
-  def params_transf
-    params.require(:transfer)
-          .permit(:name, :value, :date, :category_id)
-  end
-
-  def params_income
-    params_transf.merge(
-      {
-        account_id: params[:transfer][:destiny],
-        transaction_type: 0
-      }
-    )
-  end
-
-  def params_expense
-    params_transf.merge(
-      {
-        account_id: params[:transfer][:origin],
-        transaction_type: 10
-      }
-    )
+  def transfer
+    Transfer.find(params[:id])
   end
 
   def ordered_accounts
@@ -62,11 +49,31 @@ class TransfersController < ApplicationController
     Category.all.order(:name)
   end
 
-  def transaction
-    Transaction.find(params[:id])
-  end
-
   def transactions
     Transaction.all.order(:date)
+  end
+
+  def params_transaction
+    @params.require(:transfer)
+           .permit({ origin_attributes: %i[name value date category_id] })
+           .dig(:origin_attributes)
+  end
+
+  def params_origin
+    params_transaction.merge!(
+      {
+        account_id: @params[:transfer][:origin_attributes][:origin_id],
+        transaction_type: 'expense'
+      }
+    )
+  end
+
+  def params_destiny
+    params_transaction.merge!(
+      {
+        account_id: @params[:transfer][:destiny_attributes][:destiny_id],
+        transaction_type: 'income'
+      }
+    )
   end
 end

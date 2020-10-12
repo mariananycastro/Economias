@@ -5,7 +5,6 @@ pt-BR:
       create_account_type: 'Criar Tipo de Conta'
       create_account: 'Criar Conta'
       create_transaction: 'Criar Transação'
-      create_transfer: 'Criar Transferência'
 
   account_types:
     form_account_type:
@@ -17,10 +16,10 @@ pt-BR:
   accounts:
     form_account:
       name: 'Nome:'
-      opening_balance: 'Saldo Inicial'
-      active: 'Ativa'
-      account_type: 'Tipo de conta'
-      expiration_type: 'Tipo Investimento'
+      opening_balance: 'Saldo Inicial:'
+      active: 'Ativa:'
+      account_type: 'Tipo de conta:'
+      expiration_type: 'Tipo Investimento:'
       save: 'Salvar'
       edit: 'Editar'
       delete: 'Deletar'
@@ -32,29 +31,61 @@ pt-BR:
       edit: 'Editar'
       delete: 'Deletar'
 
+  movements:
+    account_movements:
+      name: 'Nome:'
+      value: 'Valor:'
+      date: 'Data:'
+      type: 'Tipo:'
+      category: 'Categoria:'
+      edit: 'Editar'
+      delete: 'Deletar'
+
   transactions:
+    form_movement:
+      name: 'Nome:'
+      value: 'Valor:'
+      date: 'Data:'
+      type: 'Tipo:'
+      category: 'Categoria:'
+      select_category: 'Selecione uma categoria'  
+      account: 'Conta:'
+      select_account: 'Selecione uma conta'
+      save: 'Salvar'
+
     form_transaction:
       name: 'Nome:'
       value: 'Valor:'
       date: 'Data:'
       type: 'Tipo:'
-      account: 'Conta:'
       category: 'Categoria:'
+      select_category: 'Selecione uma categoria'  
+      account: 'Conta:'
+      select_account: 'Selecione uma conta'
       save: 'Salvar'
-      edit: 'Editar'
-      delete: 'Deletar'
 
-  transfers:
-    form_transfer:
+  transfer:
+    form_movement:
       name: 'Nome:'
       value: 'Valor:'
       date: 'Data:'
       type: 'Tipo:'
+      category: 'Categoria:'
+      select_category: 'Selecione uma categoria'  
+      account_origin: 'Conta origem:'
+      select_origin_account: 'Selecione uma conta origem'
+      account_destiny: 'Conta destino:'
+      select_destiny_account: 'Selecione uma conta destino'
+      save: 'Salvar'
+
+    form_transfer:
+      name: 'Nome:'
+      value: 'Valor:'
+      date: 'Data:'
+      category: 'Categoria:'
       account_origin: 'Conta origem:'
       account_destiny: 'Conta destino:'
-      category: 'Categoria:'
       save: 'Salvar'
-      edit: 'Editar'
-      delete: 'Deletar'
-      select_account: 'Selecione uma conta'
-      select_category: 'Selecione uma categoria'
+  
+
+
