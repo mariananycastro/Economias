@@ -4,7 +4,7 @@
   <%= f.submit t('.save') %>
 <% end %>
 
-<% unless @categories.empty? %>
+<% unless @categories.nil? %>
   <% @categories.each do |category| %>
     <p>
       <%= category.name %>

@@ -5,8 +5,8 @@ FactoryBot.define do
     name { "MyString" }
     value { "9.99" }
     date { "2020-09-27" }
-    account_id {  create(:account).id}
-    category_id {  create(:category).id}
+    account_id {  create(:account).id }
+    category_id {  create(:category).id }
   
     trait :income do
       transaction_type { 0 }
