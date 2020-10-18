@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_18_203516) do
+ActiveRecord::Schema.define(version: 2020_10_18_211439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,18 @@ ActiveRecord::Schema.define(version: 2020_10_18_203516) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
+  end
+
+  create_table "installment_simple_movements", force: :cascade do |t|
+    t.bigint "installment_id", null: false
+    t.bigint "simple_movement_id", null: false
+    t.index ["installment_id"], name: "index_installment_simple_movements_on_installment_id"
+    t.index ["simple_movement_id"], name: "index_installment_simple_movements_on_simple_movement_id"
+  end
+
+  create_table "installments", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "simple_movements", force: :cascade do |t|
@@ -59,6 +71,8 @@ ActiveRecord::Schema.define(version: 2020_10_18_203516) do
   end
 
   add_foreign_key "accounts", "account_types"
+  add_foreign_key "installment_simple_movements", "installments"
+  add_foreign_key "installment_simple_movements", "simple_movements"
   add_foreign_key "simple_movements", "accounts"
   add_foreign_key "simple_movements", "categories"
   add_foreign_key "simple_movements", "transfers"

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Class responsable for the creation of a transaction or transfer
+# Class responsable for the creation of a movement
 class Movement
   include ActiveModel::Model
 
@@ -11,5 +11,6 @@ class Movement
                 :origin_id,
                 :destiny_id,
                 :account_id,
-                :transaction_type
+                :simple_movement_type,
+                :installments
 end
