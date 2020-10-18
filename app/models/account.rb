@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Account that holds all transactions
+# Account that holds all simple_movement
 class Account < ApplicationRecord
   belongs_to :account_type
-  has_many :transactions
+  has_many :simple_movements
 
   validates :name, uniqueness: true, presence: true
   validates :expiration_type, presence: true

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Class that creates transfer with 2 transactions (income and expense)
+# Class that creates transfer with 2 simple movement (income and expense)
 class TransfersController < ApplicationController
   def edit
     @transfer = transfer
@@ -8,7 +8,7 @@ class TransfersController < ApplicationController
     @accounts = ordered_accounts
     @categories = ordered_categories
 
-    @transactions = TransactionDecorator.new(transactions).decorate
+    @simple_movements = SimpleMovementDecorator.new(simple_movements).decorate
   end
 
   def update
@@ -16,8 +16,8 @@ class TransfersController < ApplicationController
     @params = params
 
     return redirect_to root_path if ActiveRecord::Base.transaction do
-      origin = Transaction.find(params[:transfer][:origin_attributes][:id])
-      destiny = Transaction.find(params[:transfer][:destiny_attributes][:id])
+      origin = SimpleMovement.find(params[:transfer][:origin_attributes][:id])
+      destiny = SimpleMovement.find(params[:transfer][:destiny_attributes][:id])
 
       origin.update!(params_origin)
       destiny.update!(params_destiny)
@@ -49,30 +49,30 @@ class TransfersController < ApplicationController
     Category.all.order(:name)
   end
 
-  def transactions
-    Transaction.all.order(:date)
+  def simple_movements
+    SimpleMovement.all.order(:date)
   end
 
-  def params_transaction
+  def params_simple_movement
     @params.require(:transfer)
            .permit({ origin_attributes: %i[name value date category_id] })
            .dig(:origin_attributes)
   end
 
   def params_origin
-    params_transaction.merge!(
+    params_simple_movement.merge!(
       {
         account_id: @params[:transfer][:origin_attributes][:origin_id],
-        transaction_type: 'expense'
+        simple_movement_type: 'expense'
       }
     )
   end
 
   def params_destiny
-    params_transaction.merge!(
+    params_simple_movement.merge!(
       {
         account_id: @params[:transfer][:destiny_attributes][:destiny_id],
-        transaction_type: 'income'
+        simple_movement_type: 'income'
       }
     )
   end

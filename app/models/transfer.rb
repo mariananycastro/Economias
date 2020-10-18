@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Represents relation between two transactions, origin: expense, destiny: income
+# Represents relation between two simple_movement, origin: expense, destiny: income
 class Transfer < ApplicationRecord
-  belongs_to :origin, class_name: 'Transaction'
-  belongs_to :destiny, class_name: 'Transaction'
-  has_many :transactions, dependent: :destroy
+  belongs_to :origin, class_name: 'SimpleMovement'
+  belongs_to :destiny, class_name: 'SimpleMovement'
+  has_many :simple_movements, dependent: :destroy
 
   accepts_nested_attributes_for :origin, :destiny
 
