@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_06_214850) do
+ActiveRecord::Schema.define(version: 2020_10_18_203516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,19 +34,19 @@ ActiveRecord::Schema.define(version: 2020_10_06_214850) do
     t.string "name"
   end
 
-  create_table "transactions", force: :cascade do |t|
+  create_table "simple_movements", force: :cascade do |t|
     t.string "name"
     t.decimal "value"
     t.date "date"
-    t.integer "transaction_type"
+    t.integer "simple_movement_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "account_id"
     t.bigint "category_id"
     t.bigint "transfer_id"
-    t.index ["account_id"], name: "index_transactions_on_account_id"
-    t.index ["category_id"], name: "index_transactions_on_category_id"
-    t.index ["transfer_id"], name: "index_transactions_on_transfer_id"
+    t.index ["account_id"], name: "index_simple_movements_on_account_id"
+    t.index ["category_id"], name: "index_simple_movements_on_category_id"
+    t.index ["transfer_id"], name: "index_simple_movements_on_transfer_id"
   end
 
   create_table "transfers", force: :cascade do |t|
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 2020_10_06_214850) do
   end
 
   add_foreign_key "accounts", "account_types"
-  add_foreign_key "transactions", "accounts"
-  add_foreign_key "transactions", "categories"
-  add_foreign_key "transactions", "transfers"
+  add_foreign_key "simple_movements", "accounts"
+  add_foreign_key "simple_movements", "categories"
+  add_foreign_key "simple_movements", "transfers"
 end
