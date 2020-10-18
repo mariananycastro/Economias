@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :transaction do
+  factory :simple_movement do
     name { "MyString" }
     value { "9.99" }
     date { "2020-09-27" }
@@ -9,11 +9,11 @@ FactoryBot.define do
     category_id {  create(:category).id }
   
     trait :income do
-      transaction_type { 0 }
+      simple_movement_type { 0 }
     end
 
     trait :expense do
-      transaction_type { 10 }
+      simple_movement_type { 10 }
     end
   end
 end

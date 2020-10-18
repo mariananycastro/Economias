@@ -1,19 +1,19 @@
- <% unless @transactions.empty? %>
-  <% @transactions.each do |transaction| %>
-    <p><%=t('.id') %> <%= transaction.id %></p>
-    <p><%=t('.name') %> : <%= transaction.name %></p>
-    <p><%=t('.value') %> : <%= transaction.value %></p>
-    <p><%=t('.date') %> : <%= transaction.date %></p>
-    <p><%=t('.type') %> <%= transaction.transaction_type %></p>
-    <p><%=t('.account') %> : <%= transaction.account_name %></p>
-    <p><%=t('.category') %> : <%= transaction.category_name %></p>
-    <% if transaction.transfer.nil? %>
-      <%= link_to t('.edit'), edit_transaction_path(transaction.id) %>
-      <%= link_to t('.delete'), transaction_path(transaction.id), method: :delete %>
+ <% unless @simple_movements.empty? %>
+  <% @simple_movements.each do |simple_movement| %>
+    <p><%=t('.id') %> <%= simple_movement.id %></p>
+    <p><%=t('.name') %> : <%= simple_movement.name %></p>
+    <p><%=t('.value') %> : <%= simple_movement.value %></p>
+    <p><%=t('.date') %> : <%= simple_movement.date %></p>
+    <p><%=t('.type') %> <%= simple_movement.simple_movement_type %></p>
+    <p><%=t('.account') %> : <%= simple_movement.account_name %></p>
+    <p><%=t('.category') %> : <%= simple_movement.category_name %></p>
+    <% if simple_movement.transfer.nil? %>
+      <%= link_to t('.edit'), edit_simple_movement_path(simple_movement.id) %>
+      <%= link_to t('.delete'), simple_movement_path(simple_movement.id), method: :delete %>
     <% else %>
-      <p><%= t('.transfer_id') %> <%= transaction.transfer_id %> </p>
-      <%= link_to t('.edit'), edit_transfer_path(transaction.transfer) %>
-      <%= link_to t('.delete'), transfer_path(transaction.transfer), method: :delete %>
+      <p><%= t('.transfer_id') %> <%= simple_movement.transfer_id %> </p>
+      <%= link_to t('.edit'), edit_transfer_path(simple_movement.transfer) %>
+      <%= link_to t('.delete'), transfer_path(simple_movement.transfer), method: :delete %>
     <% end %>
   <% end %>
 <% end %>

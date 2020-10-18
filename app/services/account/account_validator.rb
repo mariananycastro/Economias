@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Account that holds all transactions
+# Account that holds all simple movement
 class Account::AccountValidator < ActiveModel::Validator
   OPENING_BALANCE = 0
 

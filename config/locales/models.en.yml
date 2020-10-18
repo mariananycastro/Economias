@@ -7,7 +7,7 @@ en:
           medium: "Médio"
           long: "Longo"
 
-      transaction:
+      simple_movement:
         types:
           income: 'Receita'
           expense: 'Despesa'

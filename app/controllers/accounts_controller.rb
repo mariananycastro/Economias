@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# account that holds all transactions
+# account that holds all movements
 class AccountsController < ApplicationController
   def new
     @account = AccountDecorator.new(Account.new).decorate
