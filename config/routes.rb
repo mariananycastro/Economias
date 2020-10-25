@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   resources :accounts, only: %i[new create edit update destroy]
   resources :simple_movements, only: %i[edit update destroy]
   resources :transfers, only: %i[edit update destroy]
-  resources :movements, only: %i[new create]
+  resources :movements, only: %i[new create edit update destroy]
 end

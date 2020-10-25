@@ -16,10 +16,10 @@ class Movement::Transfer
     new.delete(transfer_id)
   end
 
-  def create
+  def create(params_income, params_expense)
     ActiveRecord::Base.transaction do
-      income = SimpleMovement.create!(@params_income)
-      expense = SimpleMovement.create!(@params_expense)
+      income = SimpleMovement.create!(params_income)
+      expense = SimpleMovement.create!(params_expense)
       transfer = Transfer.create!(origin_id: expense.id, destiny_id: income.id)
       income.update!(transfer: transfer)
       expense.update!(transfer: transfer)

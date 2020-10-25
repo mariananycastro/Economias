@@ -23,6 +23,37 @@ class MovementsController < ApplicationController
     return redirect_to root_path
   end
 
+  def edit
+    simple_movement = SimpleMovement.find(params[:id])
+    installment = simple_movement.installment_simple_movement.installment
+    installments = InstallmentSimpleMovement.where(installment: installment)
+    first_movement = installments.first.simple_movement
+
+    @movement = Movement.new(
+      name: first_movement.name,
+      value: first_movement.value,
+      date:  first_movement.date,
+      simple_movement_type: first_movement.simple_movement_type,
+      category_id: first_movement.category_id,
+      account_id: first_movement.account_id,
+      installments: installments.count
+    )
+
+    @accounts = accounts
+    @categories = categories
+    @simple_movements = simple_movements
+  end
+
+  def update
+    binding.pry
+    Movement::Installment.update(installment_params)
+  end
+
+  def destroy
+    Movement::Installment.delete(params[:id])
+    return redirect_to root_path
+  end
+
   private
 
   def installment?

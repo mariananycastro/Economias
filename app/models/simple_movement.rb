@@ -6,7 +6,7 @@ class SimpleMovement < ApplicationRecord
   belongs_to :account
   belongs_to :category
   belongs_to :transfer, optional: true
-  has_one :installment_simple_movement
+  has_one :installment_simple_movement, dependent: :destroy
 
   validates :name, :value, :date, :simple_movement_type, presence: true
   validates_numericality_of :value, greater_than_or_equal_to: 0.01
