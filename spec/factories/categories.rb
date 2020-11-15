@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :category do
-    name { 'Grocery'}
+    name { |n| "Grocery #{n}" }
   end
 end

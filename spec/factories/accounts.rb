@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :account do
-    name { 'CC Nu'}
+    name { |n| "CC #{n}"}
     active { true }
     initial_value { 0.00 }
     account_type

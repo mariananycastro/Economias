@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :account_type do
-    name { 'Checking Account'}
+    name { |n| "CC #{n}"}
   end
 end
