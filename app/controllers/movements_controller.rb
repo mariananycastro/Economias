@@ -1,86 +1,82 @@
 # frozen_string_literal: true
 
-# Class responsable for creating a movement
+# class that edits and destroy movements
 class MovementsController < ApplicationController
-  INCOME = '0'
-
   def new
-    @movement = Movement.new
+    @movement = MovementDecorator.new(Movement.new)
 
     @accounts = accounts
     @categories = categories
-    @simple_movements = simple_movements
+    @movements = movements
   end
 
   def create
-    if installment?
-      Movement::Installment.create(installment_params)
-    elsif simple_movement?
-      Movement::SimpleMovement.create(params_simple_movement)
-    else
-      Movement::Transfer.create(params_income, params_expense)
-    end
-    return redirect_to root_path
+    Movement.create(params_movement)
+
+    redirect_to root_path
   end
 
   def edit
-    simple_movement = SimpleMovement.find(params[:id])
-    installment = simple_movement.installment_simple_movement.installment
-    installments = InstallmentSimpleMovement.where(installment: installment)
-    first_movement = installments.first.simple_movement
-
-    @movement = Movement.new(
-      name: first_movement.name,
-      value: first_movement.value,
-      date:  first_movement.date,
-      simple_movement_type: first_movement.simple_movement_type,
-      category_id: first_movement.category_id,
-      account_id: first_movement.account_id,
-      installments: installments.count
-    )
-
-    @accounts = accounts
-    @categories = categories
-    @simple_movements = simple_movements
+    @movement = MovementDecorator.new(Movement.find(params[:id])).decorate
+    @accounts = ordered_accounts
+    @categories = ordered_categories
+    @movements = movements
   end
 
   def update
-    binding.pry
-    Movement::Installment.update(installment_params)
+    Movement.update(params[:id], params_movement)
+    redirect_to root_path
   end
 
   def destroy
-    Movement::Installment.delete(params[:id])
-    return redirect_to root_path
+    Movement.delete(params[:id])
+    redirect_to root_path
   end
 
   private
+
+  def params_movement
+    params.require(:movement)
+          .permit(:name, :value, :date, :movement_type, :account_id, :category_id)
+  end
+
+  def movements
+    MovementDecorator.new(Movement.all.order(:date)).decorate
+  end
+
+  def ordered_accounts
+    Account.all.order(:name)
+  end
+
+  def ordered_categories
+    Category.all.order(:name)
+  end
 
   def installment?
     !params[:movement][:installments].nil?
   end
 
-  def simple_movement?
+  def movement?
     !params[:movement][:account_id].nil?
   end
 
-  def params_simple_movement
-    params.require(:movement)
-          .permit(:name, :value, :date, :category_id, :account_id, :simple_movement_type)
-          .merge!(type)
-  end
+  # def params_movement
+  #   params.require(:movement)
+  #         .permit(:name, :value, :date, :category_id, :account_id, :movement_type)
+  #         .merge!(type)
+  # end
 
-  def installment_params
-    params.require(:movement)
-          .permit(:name, :value, :date, :installments, :category_id, :account_id, :simple_movement_type)
-          .merge!(type)
-  end
+  # def installment_params
+  #   params.require(:movement)
+  #         .permit(:name, :value, :date, :installments, :category_id, :account_id, :movement_type)
+  #         .merge!(type)
+  # end
 
-  def type
-    return { simple_movement_type: 'income' } if params[:movement][:simple_movement_type] == INCOME
+  # def type
+  #   return { movement_type: :income } if params[:movement][:movement_type] == INCOME
 
-    { simple_movement_type: 'expense' }
-  end
+  #   { movement_type: :expense }
+  # end
 
   def params_transfer
     params.require(:movement)
@@ -91,7 +87,7 @@ class MovementsController < ApplicationController
     params_transfer.merge(
       {
         account_id: params[:movement][:destiny_id],
-        simple_movement_type: 'income'
+        movement_type: :income
       }
     )
   end
@@ -100,7 +96,7 @@ class MovementsController < ApplicationController
     params_transfer.merge(
       {
         account_id: params[:movement][:origin_id],
-        simple_movement_type: 'expense'
+        movement_type: :expense
       }
     )
   end
@@ -113,8 +109,8 @@ class MovementsController < ApplicationController
     Category.all.order(:name)
   end
 
-  def simple_movements
-    SimpleMovementDecorator.new(SimpleMovement.all.order(:date)).decorate
+  def movements
+    MovementDecorator.new(Movement.all.order(:date)).decorate
   end
 
   def interval

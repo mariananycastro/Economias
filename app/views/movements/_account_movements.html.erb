@@ -1,25 +1,26 @@
- <% unless @simple_movements.empty? %>
-  <% @simple_movements.each do |simple_movement| %>
-    <p><%=t('.id') %> <%= simple_movement.id %></p>
-    <p><%=t('.name') %> : <%= simple_movement.name %></p>
-    <p><%=t('.value') %> : <%= simple_movement.value %></p>
-    <p><%=t('.date') %> : <%= simple_movement.date %></p>
-    <p><%=t('.type') %> <%= simple_movement.simple_movement_type %></p>
-    <p><%=t('.account') %> : <%= simple_movement.account_name %></p>
-    <p><%=t('.category') %> : <%= simple_movement.category_name %></p>
-    
-    <% if simple_movement.transfer.nil? %>
-      <% if simple_movement&.installment_simple_movement %>
-        <%= link_to t('.edit'), edit_movement_path(simple_movement.id) %>
-        <%= link_to t('.delete'), movement_path(simple_movement.id), method: :delete %>
-      <% else %>
-        <%= link_to t('.edit'), edit_simple_movement_path(simple_movement.id) %>
-        <%= link_to t('.delete'), simple_movement_path(simple_movement.id), method: :delete %>
-      <% end %>
-    <% else %>
-      <p><%= t('.transfer_id') %> <%= simple_movement.transfer_id %> </p>
-      <%= link_to t('.edit'), edit_transfer_path(simple_movement.transfer) %>
-      <%= link_to t('.delete'), transfer_path(simple_movement.transfer), method: :delete %>
+ 
+  <% unless @movements.empty? %>
+    <% @movements.each do |movement| %>
+      <p><%=t('.id') %> <%= movement.id %></p>
+      <p><%=t('.name') %> : <%= movement.name %></p>
+      <p><%=t('.value') %> : <%= movement.value %></p>
+      <p><%=t('.date') %> : <%= movement.date %></p>
+      <p><%=t('.type') %> <%= movement.movement_type %></p>
+      <p><%=t('.account') %> : <%= movement.account_name %></p>
+      <p><%=t('.category') %> : <%= movement.category_name %></p>
+      
+      <#% if movement.transfer.nil? %>
+        <#% if movement&.installment_movement %>
+          <%= link_to t('.edit'), edit_movement_path(movement.id) %>
+          <%= link_to t('.delete'), movement_path(movement.id), method: :delete %>
+        <#% else %>
+          <#%= link_to t('.edit'), edit_movement_path(movement.id) %>
+          <#%= link_to t('.delete'), movement_path(movement.id), method: :delete %>
+        <#% end %>
+      <#% else %>
+        <p><#%= t('.transfer_id') %> <#%= movement.transfer_id %> </p>
+        <#%= link_to t('.edit'), edit_transfer_path(movement.transfer) %>
+        <#%= link_to t('.delete'), transfer_path(movement.transfer), method: :delete %>
+      <#% end %>
     <% end %>
   <% end %>
-<% end %>

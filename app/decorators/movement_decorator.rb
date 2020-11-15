@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 # Class to decorate simple movement
-class SimpleMovementDecorator < Draper::Decorator
+class MovementDecorator < Draper::Decorator
   delegate_all
 
   def type_names
-    SimpleMovement.simple_movement_types.map { |k, _v| [SimpleMovement.human_enum_name(:types, k), k] }
+    Movement.movement_types.map { |k, _v| [Movement.human_enum_name(:movement_types, k), k] }
   end
 
   def account_name

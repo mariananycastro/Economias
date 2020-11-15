@@ -1,7 +1,11 @@
-<%= render partial: 'simple_movements/form_movement' %>
+<div id='movement'>
+  <%= render partial: 'movements/form_movement' %>
+</div>
+
 <hr>
-<%= render partial: 'transfers/form_movement' %>
+<div id='transfer'>
+  <%= render partial: 'movements/form_movement' %>
+</div>
+
 <hr>
-<%= render partial: 'installments/form_installment' %>
-<hr>
-<%= render partial: 'account_movements' %>
+  <%= render partial: 'account_movements' %>

@@ -5,8 +5,8 @@
   <%= f.number_field :value %>
   <%= f.label :date, t('.date') %>
   <%= f.date_field :date %>
-  <%= f.label :simple_movement_type, t('.type') %>
-  <%= f.select :simple_movement_type, options_for_select(SimpleMovement.simple_movement_types) %>
+  <%= f.label :movement_type, t('.type') %>
+  <%= f.select :movement_type, options_for_select(@movement.type_names, @movement.movement_type) %>
   <%= f.label :category_id, t('.category') %>
   <%= f.collection_select :category_id, @categories, :id,:name, { prompt: t('.select_category') }%>
   <%= f.label :account_id, t('.account') %>

@@ -3,7 +3,7 @@
 # Account that holds all simple_movement
 class Account < ApplicationRecord
   belongs_to :account_type
-  has_many :simple_movements
+  has_many :movements
 
   validates :name, uniqueness: true, presence: true
   validates :expiration_type, presence: true

@@ -4,7 +4,7 @@ en:
       create_category: 'Criar Categoria'
       create_account_type: 'Criar Tipo de Conta'
       create_account: 'Criar Conta'
-      create_simple_movement: 'Criar Transação'
+      create_movement: 'Criar Transação'
 
   account_types:
     form_account_type:
@@ -41,7 +41,6 @@ en:
       edit: 'Editar'
       delete: 'Deletar'
 
-  simple_movements:
     form_movement:
       name: 'Nome:'
       value: 'Valor:'
@@ -52,17 +51,8 @@ en:
       account: 'Conta:'
       select_account: 'Selecione uma conta'
       save: 'Salvar'
-
-    form_simple_movement:
-      name: 'Nome:'
-      value: 'Valor:'
-      date: 'Data:'
-      type: 'Tipo:'
-      category: 'Categoria:'
-      select_category: 'Selecione uma categoria'  
-      account: 'Conta:'
-      select_account: 'Selecione uma conta'
-      save: 'Salvar'
+      edit: 'Editar'
+      delete: 'Deletar'
 
   transfer:
     form_movement:

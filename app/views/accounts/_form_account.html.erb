@@ -8,7 +8,7 @@
   <%= f.label :account_type_id, t('.account_type') %>
   <%= f.collection_select :account_type_id, @account_types, :id,:name, include_blank: true %>
   <%= f.label :expiration_type, t('.expiration_type') %>
-  <%= f.select :expiration_type, options_for_select(@account.expiration_names) %>
+  <%= f.select :expiration_type, options_for_select(@account.expiration_names, @account.expiration_type) %>
   <%= f.submit t('.save') %>
 <% end %>
 

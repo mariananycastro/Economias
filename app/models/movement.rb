@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
-# Class responsable for the creation of a movement
-class Movement
-  include ActiveModel::Model
+# Represents simple_movement on account, can be income(positive) ou expense(negative)
+# When it belongs to a transfer, each transfer has 2 simple_movement, income and expense
+class Movement < ApplicationRecord
+  belongs_to :account
+  belongs_to :category
+  has_one :installment_simple_movement, dependent: :destroy
 
-  attr_accessor :name,
-                :value,
-                :date,
-                :category_id,
-                :origin_id,
-                :destiny_id,
-                :account_id,
-                :simple_movement_type,
-                :installments
+  validates :name, :value, :date, :movement_type, presence: true
+  validates_numericality_of :value, greater_than_or_equal_to: 0.01
+
+  enum movement_type: { income: 0, expense: 10 }
 end
