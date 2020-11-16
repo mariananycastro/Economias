@@ -5,6 +5,7 @@ en:
       create_account_type: 'Criar Tipo de Conta'
       create_account: 'Criar Conta'
       create_movement: 'Criar Transação'
+      create_transfer: 'Criar Transferencia'
 
   account_types:
     form_account_type:
@@ -32,15 +33,6 @@ en:
       delete: 'Deletar'
 
   movements:
-    account_movements:
-      name: 'Nome:'
-      value: 'Valor:'
-      date: 'Data:'
-      type: 'Tipo:'
-      category: 'Categoria:'
-      edit: 'Editar'
-      delete: 'Deletar'
-
     form_movement:
       name: 'Nome:'
       value: 'Valor:'
@@ -54,8 +46,8 @@ en:
       edit: 'Editar'
       delete: 'Deletar'
 
-  transfer:
-    form_movement:
+  transfers:
+    form_transfer:
       name: 'Nome:'
       value: 'Valor:'
       date: 'Data:'
@@ -68,11 +60,14 @@ en:
       select_destiny_account: 'Selecione uma conta destino'
       save: 'Salvar'
 
-    form_transfer:
+  shared:
+    account_movements:
       name: 'Nome:'
       value: 'Valor:'
       date: 'Data:'
+      type: 'Tipo:'
       category: 'Categoria:'
-      account_origin: 'Conta origem:'
-      account_destiny: 'Conta destino:'
-      save: 'Salvar'
+      edit: 'Editar'
+      delete: 'Deletar'
+
+

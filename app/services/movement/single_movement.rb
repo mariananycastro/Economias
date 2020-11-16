@@ -26,8 +26,6 @@ class Movement::SingleMovement
   end
 
   def delete(id)
-    movement = Movement.find(id)
-
-    movement.destroy
+    Movement.destroy(id)
   end
 end

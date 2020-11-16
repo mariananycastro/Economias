@@ -1,0 +1,15 @@
+ 
+  <% unless @movements.empty? %>
+    <% @movements.each do |movement| %>
+      <p><%=t('.id') %> <%= movement.id %></p>
+      <p><%=t('.name') %> : <%= movement.name %></p>
+      <p><%=t('.value') %> : <%= movement.value %></p>
+      <p><%=t('.date') %> : <%= movement.date %></p>
+      <p><%=t('.type') %> <%= movement.movement_type %></p>
+      <p><%=t('.account') %> : <%= movement.account_name %></p>
+      <p><%=t('.category') %> : <%= movement.category_name %></p>
+      
+      <%= link_to t('.edit'), edit_movement_path(movement.id) %>
+      <%= link_to t('.delete'), movement_path(movement.id), method: :delete %>
+    <% end %>
+  <% end %>

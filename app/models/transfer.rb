@@ -2,9 +2,8 @@
 
 # Represents relation between two simple_movement, origin: expense, destiny: income
 class Transfer < ApplicationRecord
-  belongs_to :origin, class_name: 'Movement'
-  belongs_to :destiny, class_name: 'Movement'
-  has_many :movements, dependent: :destroy
+  belongs_to :origin, class_name: 'Movement', dependent: :destroy
+  belongs_to :destiny, class_name: 'Movement', dependent: :destroy
 
   accepts_nested_attributes_for :origin, :destiny
 

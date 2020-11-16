@@ -1,26 +1,37 @@
 # frozen_string_literal: true
 
-# Class that creates transfer with 2 simple movement (income and expense)
+# Class that creates transfer with 2 movement (income and expense)
 class TransfersController < ApplicationController
-  def edit
-    @transfer = Transfer.find(params[:id])
+  def new
+    @transfer = Transfer.new
 
     @accounts = ordered_accounts
     @categories = ordered_categories
+  end
 
-    @simple_movements = SimpleMovementDecorator.new(simple_movements).decorate
+  def create
+    Movement::Transfer.create(params_origin, params_destiny)
+
+    redirect_to root_path
+  end
+
+  def edit
+    @transfer = Transfer.find(params[:id])
+    origin_account = @transfer.origin
+    destiny_account = @transfer.destiny
+
+    @comum_params = origin_account
+    @account_origin = origin_account.account
+    @account_destiny = destiny_account.account
+
+    @accounts = ordered_accounts
+    @categories = ordered_categories
   end
 
   def update
     Movement::Transfer.update(params[:id], params_origin, params_destiny)
 
-    return redirect_to root_path
-  end
-
-  def destroy
-    Movement::Transfer.delete(params[:id])
-
-    return redirect_to root_path
+    redirect_to root_path
   end
 
   private
@@ -33,32 +44,25 @@ class TransfersController < ApplicationController
     Category.all.order(:name)
   end
 
-  def simple_movements
-    SimpleMovement.all.order(:date)
+  def params_transfer
+    params.require(:comum_params)
+          .permit(:name, :value, :date, :category_id)
   end
 
-  def params_simple_movement
-    params.require(:transfer)
-           .permit({ origin_attributes: %i[name value date category_id] })
-           .dig(:origin_attributes)
-  end
-
-  def params_origin
-    params_simple_movement.merge!(
+  def params_destiny
+    params_transfer.merge(
       {
-        id: params[:transfer][:origin_attributes][:id],
-        account_id: params[:transfer][:origin_attributes][:origin_id],
-        simple_movement_type: 'expense'
+        account_id: params[:account_destiny][:id],
+        movement_type: :income
       }
     )
   end
 
-  def params_destiny
-    params_simple_movement.merge!(
+  def params_origin
+    params_transfer.merge(
       {
-        id: params[:transfer][:destiny_attributes][:id],
-        account_id: params[:transfer][:destiny_attributes][:destiny_id],
-        simple_movement_type: 'income'
+        account_id: params[:account_origin][:id],
+        movement_type: :expense
       }
     )
   end

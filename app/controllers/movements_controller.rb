@@ -17,7 +17,10 @@ class MovementsController < ApplicationController
   end
 
   def edit
+    transfer = movement_transfer
+    redirect_to edit_transfer_path(transfer.first.id) unless transfer.empty?
     @movement = MovementDecorator.new(Movement.find(params[:id])).decorate
+
     @accounts = ordered_accounts
     @categories = ordered_categories
     @movements = movements
@@ -29,7 +32,14 @@ class MovementsController < ApplicationController
   end
 
   def destroy
-    Movement::SingleMovement.delete(params[:id])
+    transfer = movement_transfer
+
+    if transfer.empty?
+      Movement::SingleMovement.delete(params[:id])
+    else
+      Movement::Transfer.delete(transfer)
+    end
+
     redirect_to root_path
   end
 
@@ -50,6 +60,10 @@ class MovementsController < ApplicationController
 
   def ordered_categories
     Category.all.order(:name)
+  end
+
+  def movement_transfer
+    Transfer.where("destiny_id = '#{params[:id]}' or origin_id = '#{params[:id]}'")
   end
 
   # def installment_params

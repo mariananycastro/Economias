@@ -1,20 +1,21 @@
-<%= form_for @transfer do |f| %>
-  <%= f.fields_for :origin do |ff| %>
-    <%= ff.label :name, t('.name') %>
-    <%= ff.text_field :name %>
-    <%= ff.label :value, t('.value') %>
-    <%= ff.number_field :value %>
-    <%= ff.label :date, t('.date') %>
-    <%= ff.date_field :date %>
-    <%= ff.label :category_id, t('.category') %>
-    <%= ff.collection_select :category_id, @categories, :id, :name, selected: ff.object.category_id %>
-    <%= ff.label :origin_id, t('.account_origin') %>
-    <%= ff.collection_select :origin_id, @accounts, :id, :name, selected: ff.object.account_id %>
+<%= form_with model: @transfer do |transfer_form| %>
+  <%= fields_for :comum_params do |mov_form| %>
+    <%= mov_form.label :name, t('.name') %>
+    <%= mov_form.text_field :name %>
+    <%= mov_form.label :value, t('.value') %>
+    <%= mov_form.number_field :value %>
+    <%= mov_form.label :date, t('.date') %>
+    <%= mov_form.date_field :date %>
+    <%= mov_form.label :category_id, t('.category') %>
+    <%= mov_form.collection_select :category_id, @categories, :id, :name, { prompt: t('.select_category') } %>
   <% end %>
-
-  <%= f.fields_for :destiny do |form| %>
-    <%= form.label :destiny_id, t('.account_destiny') %>
-    <%= form.collection_select :destiny_id, @accounts, :id, :name, selected: form.object.account_id %>
-<% end %>
-  <%= f.submit t('.save') %>
+  <%= fields_for :account_origin do |origin_form| %>
+    <%= origin_form.label :id, t('.account_origin') %>
+    <%= origin_form.collection_select :id, @accounts, :id, :name, { prompt: t('.select_origin_account') } %>
+  <% end %>
+  <%= fields_for :account_destiny do |destiny_form| %>
+    <%= destiny_form.label :id, t('.account_destiny') %>
+    <%= destiny_form.collection_select :id, @accounts, :id, :name, { prompt: t('.select_destiny_account') } %>
+  <% end %>
+  <%= transfer_form.submit t('.save') %>
 <% end %>
