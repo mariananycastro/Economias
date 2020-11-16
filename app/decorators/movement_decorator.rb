@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Class to decorate simple movement
+# Class to decorate movement
 class MovementDecorator < Draper::Decorator
   delegate_all
 

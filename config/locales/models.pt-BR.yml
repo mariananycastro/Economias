@@ -7,7 +7,7 @@ pt-BR:
           medium: "Médio"
           long: "Longo"
           
-      simple_movement:
+      movement:
         types:
           income: 'Receita'
           expense: 'Despesa'

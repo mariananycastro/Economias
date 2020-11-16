@@ -11,7 +11,7 @@ class MovementsController < ApplicationController
   end
 
   def create
-    Movement.create(params_movement) if params[:movement].present?
+    Movement::SingleMovement.create(params_movement)
 
     redirect_to root_path
   end
@@ -24,12 +24,12 @@ class MovementsController < ApplicationController
   end
 
   def update
-    Movement.update(params[:id], params_movement)
+    Movement::SingleMovement.update(params[:id], params_movement)
     redirect_to root_path
   end
 
   def destroy
-    Movement.delete(params[:id])
+    Movement::SingleMovement.delete(params[:id])
     redirect_to root_path
   end
 

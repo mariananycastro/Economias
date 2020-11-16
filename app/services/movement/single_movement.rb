@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Class responsable for creating, updating and deleting a Simple Movement
+# Class responsable for creating, updating and deleting a Movement
 # TODO create a transfer with installment
-class Movement
+class Movement::SingleMovement
   def self.create(params_movement)
     new.create(params_movement)
   end
@@ -19,7 +19,7 @@ class Movement
     Movement.create(params_movement)
   end
 
-  def update(id, params__movement)
+  def update(id, params_movement)
     movement = Movement.find(id)
 
     movement.update(params_movement)
