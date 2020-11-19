@@ -143,5 +143,3 @@ feature 'transfer' do
     end
   end
 end
-
-

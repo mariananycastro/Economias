@@ -1,22 +1,21 @@
-<%= form_for @movement do |f| %>
-  <%= f.label :name, t('.name') %>
-  <%= f.text_field :name %>
-  <%= f.label :value, t('.total_value') %>
-  <%= f.number_field :value %>
-  <%= f.label :date, t('.initial_date') %>
-  <%= f.date_field :date %>
-
-<% t('.installment') %>
-  <%= f.label :installments, t('.installments_qtd') %>
-  <%= f.number_field :installments %>
-<% t('.others') %>
-  <%#= f.label :interval, t('.interval') %>
-  <%#= f.select :interval, options_for_select(@movement.interval) %>
-  <%= f.label :simple_movement_type, t('.type') %>
-  <%= f.select :simple_movement_type, options_for_select(SimpleMovement.simple_movement_types) %>
-  <%= f.label :category_id, t('.category') %>
-  <%= f.collection_select :category_id, @categories, :id,:name, { prompt: t('.select_category') }%>
-  <%= f.label :account_id, t('.account') %>
-  <%= f.collection_select :account_id, @accounts, :id,:name, { prompt: t('.select_account') }%>
+<%= form_for @installment, local: true do |f| %>
+  <%= fields_for :comum_params do |mov_form| %>
+    <%= mov_form.label :name, t('.name') %>
+    <%= mov_form.text_field :name %>
+    <%= mov_form.label :value, t('.total_value') %>
+    <%= mov_form.number_field :value %>
+    <%= mov_form.label :movement_type, t('.type') %>
+    <%= mov_form.select :movement_type, options_for_select(@movement.type_names, @movement.movement_type) %>
+    <%= mov_form.label :category_id, t('.category') %>
+    <%= mov_form.collection_select :category_id, @categories, :id,:name, { prompt: t('.select_category') }%>
+    <%= mov_form.label :account_id, t('.account') %>
+    <%= mov_form.collection_select :account_id, @accounts, :id,:name, { prompt: t('.select_account') }%>
+  <% end %>
+    <%= f.label :initial_date, t('.initial_date') %>
+    <%= f.date_field :initial_date %>
+    <%= f.label :qtd, t('.qtd') %>
+    <%= f.number_field :qtd %>
+    <%= f.label :interval, t('.interval') %>
+    <%= f.select :interval, options_for_select(@installment.interval_names, @installment.interval) %>
   <%= f.submit t('.save') %>
 <% end %>

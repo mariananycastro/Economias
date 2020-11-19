@@ -6,6 +6,7 @@ en:
       create_account: 'Criar Conta'
       create_movement: 'Criar Transação'
       create_transfer: 'Criar Transferencia'
+      create_installment: 'Criar Parcelamento'
 
   account_types:
     form_account_type:
@@ -69,5 +70,19 @@ en:
       category: 'Categoria:'
       edit: 'Editar'
       delete: 'Deletar'
+
+  installments:
+    form_installment:
+      name: 'Nome:'
+      total_value: 'Valor Total:'
+      type: 'Tipo:'
+      category: 'Categoria:'
+      select_category: 'Selecione uma categoria'  
+      account: 'Conta:'
+      select_account: 'Selecione uma conta'
+      initial_date: 'Data Inicial:'
+      interval: 'Intervalo entre parcelas:'
+      qtd: 'Qtd Parcelas:'
+      save: 'Salvar'
 
 

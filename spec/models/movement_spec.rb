@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-RSpec.describe SimpleMovement, type: :model do
+RSpec.describe Movement, type: :model do
   describe '#new' do
     let(:account) { create(:account) }
     let(:category) { create(:category) }
 
     context 'successfully' do
-      subject { build(:simple_movement, name: 'Supermarket',
+      subject { build(:movement, name: 'Supermarket',
                                     value: 20.00,
                                     date: Date.today(),
-                                    simple_movement_type: 0,
+                                    movement_type: 0,
                                     account: account,
                                     category: category
               ).valid?}
@@ -19,10 +19,10 @@ RSpec.describe SimpleMovement, type: :model do
 
     context 'validates fields' do
       context 'presence' do
-        subject { build(:simple_movement, name: nil,
+        subject { build(:movement, name: nil,
                                       value: nil,
                                       date: nil,
-                                      simple_movement_type: nil,
+                                      movement_type: nil,
                                       account: nil,
                                       category: nil
                 )}
@@ -34,17 +34,17 @@ RSpec.describe SimpleMovement, type: :model do
           expect(subject.errors[:value]).to include "can't be blank"
           expect(subject.errors[:value]).to include 'is not a number'
           expect(subject.errors[:date]).to include "can't be blank"
-          expect(subject.errors[:simple_movement_type]).to include "can't be blank"
+          expect(subject.errors[:movement_type]).to include "can't be blank"
           expect(subject.errors[:account]).to include "must exist"
           expect(subject.errors[:category]).to include "must exist"
         end
       end
 
       context 'value should be positive' do
-        subject { build(:simple_movement, name: 'Supermarket',
+        subject { build(:movement, name: 'Supermarket',
                         value: -0.01,
                         date: Date.today(),
-                        simple_movement_type: 0,
+                        movement_type: 0,
                         account: account,
                         category: category
                 )}
@@ -57,10 +57,10 @@ RSpec.describe SimpleMovement, type: :model do
       end
 
       context 'value should greater or equal to 0.01' do
-        subject { build(:simple_movement, name: 'Supermarket',
+        subject { build(:movement, name: 'Supermarket',
                         value: 0.00,
                         date: Date.today(),
-                        simple_movement_type: 0,
+                        movement_type: 0,
                         account: account,
                         category: category
                 )}

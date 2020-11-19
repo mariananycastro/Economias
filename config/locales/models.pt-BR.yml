@@ -12,3 +12,10 @@ pt-BR:
           income: 'Receita'
           expense: 'Despesa'
           transfer: 'Transferência'
+
+      installment:
+        intervals:
+          yearly: 'Anual'
+          monthly: 'Mensal'
+          weekly: 'Semanal'
+          daily: 'Diaria'

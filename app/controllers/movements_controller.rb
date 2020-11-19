@@ -11,7 +11,7 @@ class MovementsController < ApplicationController
   end
 
   def create
-    Movement::SingleMovement.create(params_movement)
+    Movement.create(params_movement)
 
     redirect_to root_path
   end
@@ -27,7 +27,9 @@ class MovementsController < ApplicationController
   end
 
   def update
-    Movement::SingleMovement.update(params[:id], params_movement)
+    movement = Movement.find(params[:id])
+    movement.update(params_movement)
+
     redirect_to root_path
   end
 
@@ -35,7 +37,7 @@ class MovementsController < ApplicationController
     transfer = movement_transfer
 
     if transfer.empty?
-      Movement::SingleMovement.delete(params[:id])
+      Movement.destroy(params[:id])
     else
       Movement::Transfer.delete(transfer)
     end
@@ -65,30 +67,4 @@ class MovementsController < ApplicationController
   def movement_transfer
     Transfer.where("destiny_id = '#{params[:id]}' or origin_id = '#{params[:id]}'")
   end
-
-  # def installment_params
-  #   params.require(:movement)
-  #         .permit(:name, :value, :date, :installments, :category_id, :account_id, :movement_type)
-  #         .merge!(type)
-  # end
-
-  # def type
-  #   return { movement_type: :income } if params[:movement][:movement_type] == INCOME
-
-  #   { movement_type: :expense }
-  # end
-
-
-  # def interval
-  #   case params[:movement][:interval]
-  #   when day
-  #     1.day
-  #   when week
-  #     1.week
-  #   when year
-      # 1.year
-    # else
-      # 1.month
-    # end
-  # end
 end

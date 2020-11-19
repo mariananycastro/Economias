@@ -1,107 +1,88 @@
 # frozen_string_literal: true
 
 # Class responsable for creating, updating and deleting a installment
-# TODO create a transfer with installmente 
+# TODO create a transfer with installment
 class Movement::Installment
+  def initialize(comum_params, installment_params)
+    @name = comum_params[:name]
+    @installment_qtd = installment_params[:qtd].to_i
+    @movement_value = comum_params[:value].to_f / @installment_qtd
+    @date = installment_params[:initial_date].to_date
+    @interval = installment_params[:interval]
 
-  def self.create(installment_params)
-    new.create(installment_params)
+    @movement_type = comum_params[:movement_type]
+    @category_id = comum_params[:category_id]
+    @account_id = comum_params[:account_id]
   end
 
-  def self.update(simple_movement_id)
-    new.update(simple_movement_id)
+  def self.create(comum_params, installment_params)
+    new(comum_params, installment_params).create
   end
 
-  def self.delete(simple_movement_id)
-    new.delete(simple_movement_id)
-  end
-
-  def create(installment_params)
-    @name = installment_params[:name]
-    @date = installment_params[:date].to_date
-    @installment = installment_params[:installments].to_i
-    @category = installment_params[:category_id]
-    @account = installment_params[:account_id]
-    @simple_movement_value = installment_params[:value].to_f / @installment
-    @simple_movement_type = installment_params[:simple_movement_type]
-    @interval = 1.month #params_installment[:interval]
-
-    params_installment = build_installment
+  def create
     i = 1
     installment_date = @date
-    ActiveRecord::Base.transaction do
-      new_installment = Installment.create
-      while i <= @installment
-        params_installment.merge!({
-                                    name: "#{@name} (#{i} de #{@installment})",
-                                    value: @simple_movement_value,
-                                    date: installment_date
-                                  })
 
-        @simple_movement = SimpleMovement.new(params_installment)
-        @simple_movement.save
-        
-        InstallmentSimpleMovement.create!(installment: new_installment, simple_movement: @simple_movement)
-        installment_date = installment_date + @interval
+    ActiveRecord::Base.transaction do
+      new_installment = Installment.create(qtd: @installment_qtd, interval: @interval, initial_date: @date)
+
+      while i <= @installment_qtd
+        new_movement = params_movement.merge!({ name: "#{@name} (#{i} de #{@installment_qtd})",
+                                 value: @movement_value,
+                                 date: installment_date })
+
+        movement = Movement.create(new_movement)
+
+        InstallmentMovement.create(installment: new_installment, movement: movement)
+        installment_date = installment_date + installments_interval
         i += 1
       end
     end
   end
 
-  def update(simple_movement_id)
-    binding.pry
-    simple_movement = SimpleMovement.find(simple_movement_id)
-    installment = simple_movement.installment_simple_movement.installment
+  # def update(params)
+    # movement = Movement.find(movement_id)
+    # installment = movement.installment_movement.installment
 
-    installments = InstallmentSimpleMovement.where(installment: installment)
+    # installments = InstallmentMovement.where(installment: installment)
 
-    movements = [] 
-    installments.each do |installment|
-      movements << installment[:simple_movement]
-    end
+    # movements = []
+    # installments.each do |installment|
+    #   movements << installment[:movement]
+    # end
 
-    # build_params(simple_movement, params_installment)
+    # build_params(movement, params_installment)
 
     # ActiveRecord::Base.transaction do
-    #   movements.each do |movement| 
-    #     movement.
+    #   movements.each do |movement|
+    #     movement.installments_interval
     #   end
     # end
-  end
+  # end
 
-  def delete(simple_movement_id)
-    simple_movement = SimpleMovement.find(simple_movement_id)
-    installment = simple_movement.installment_simple_movement.installment
-    installment_simple_movements = installment.installment_simple_movements
+  # def delete(movement_id)
+  #   movement = Movement.find(movement_id)
+  #   installment = movement.installment_movement.installment
+  #   installment_movements = installment.installment_movements
 
-    ActiveRecord::Base.transaction do
-      installment_simple_movements.each do |i|
-        movement = i.simple_movement
-        i.delete
-        movement.delete
-      end
-      installment.delete
-    end
-  end
+  #   ActiveRecord::Base.transaction do
+  #     delete_all_installment_movements(installment_movements)
+  #     installment.delete
+  #   end
+  # end
 
   private
 
-  def build_installment
-    {
-      simple_movement_type: @simple_movement_type,
-      category_id: @category,
-      account_id: @account
-    }
+  def params_movement
+    { movement_type: @movement_type,
+      category_id: @category_id,
+      account_id: @account_id }
   end
 
-  def build_params(simple_movement, params_installment)
-    { 
-      name: params[:name],
-      value: params[:value],
-      date: params[:date],
-      simple_movement_type: params[:simple_movement_type],
-      account_id: params[:account_id],
-      category_is: params[:category_is]
-    }
+  def installments_interval
+    return 1.day if @interval == 'daily'
+    return 1.week if @interval == 'weekly'
+    return 1.month if @interval == 'monthly'
+    return 1.year if @interval == 'yearly'
   end
 end

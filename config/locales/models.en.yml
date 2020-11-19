@@ -11,3 +11,10 @@ en:
         movement_types:
           income: 'Receita'
           expense: 'Despesa'
+      
+      installment:
+        intervals:
+          yearly: 'Anual'
+          monthly: 'Mensal'
+          weekly: 'Semanal'
+          daily: 'Diaria'
