@@ -27,7 +27,7 @@ class InstallmentsController < ApplicationController
   end
 
   def update
-    Movement::Installment.update(params[:id].to_i, comum_params, installment_params)
+    Movement::Installment.update(comum_params, installment_params, params[:id].to_i)
 
     redirect_to root_path
   end
