@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_19_211934) do
+ActiveRecord::Schema.define(version: 2020_11_23_185348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2020_11_19_211934) do
     t.integer "qtd"
     t.integer "interval"
     t.date "initial_date"
+    t.string "comum_name"
   end
 
   create_table "movements", force: :cascade do |t|

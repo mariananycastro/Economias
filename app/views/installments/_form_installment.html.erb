@@ -1,7 +1,7 @@
 <%= form_for @installment, local: true do |f| %>
+    <%= f.label :comum_name, t('.name') %>
+    <%= f.text_field :comum_name %>
   <%= fields_for :comum_params do |mov_form| %>
-    <%= mov_form.label :name, t('.name') %>
-    <%= mov_form.text_field :name %>
     <%= mov_form.label :value, t('.total_value') %>
     <%= mov_form.number_field :value %>
     <%= mov_form.label :movement_type, t('.type') %>

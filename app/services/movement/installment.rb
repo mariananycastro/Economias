@@ -4,7 +4,7 @@
 # TODO create a transfer with installment
 class Movement::Installment
   def initialize(comum_params, installment_params, id = 0)
-    @name = comum_params[:name]
+    @name = installment_params[:comum_name]
     @installment_qtd = installment_params[:qtd].to_i
     @movement_value = comum_params[:value].to_f / @installment_qtd
     @date = installment_params[:initial_date].to_date
@@ -26,7 +26,7 @@ class Movement::Installment
 
   def create
     ActiveRecord::Base.transaction do
-      new_installment = Installment.create(qtd: @installment_qtd, interval: @interval, initial_date: @date)
+      new_installment = Installment.create(comum_name: @name, qtd: @installment_qtd, interval: @interval, initial_date: @date)
 
       params_movements.each do |params_movement|
         movement = Movement.create(params_movement)
@@ -47,16 +47,9 @@ class Movement::Installment
     end
   end
 
-  # def delete(movement_id)
-  #   movement = Movement.find(movement_id)
-  #   installment = movement.installment_movement.installment
-  #   installment_movements = installment.installment_movements
-
-  #   ActiveRecord::Base.transaction do
-  #     delete_all_installment_movements(installment_movements)
-  #     installment.delete
-  #   end
-  # end
+  def self.delete(installment)
+    Installment.destroy(installment.id)
+  end
 
   private
 
@@ -90,17 +83,19 @@ class Movement::Installment
 
   def update_movements_and_installment(installment_movements)
     x = 0
+    build_movement = params_movements
     ActiveRecord::Base.transaction do
-      while x < updated_params.count
-        installment_movements[x].movement.update(params_movement[x])
+      while x < installment_movements.count
+        installment_movements[x].movement.update(build_movement[x])
         x += 1
       end
-      installment_movements[0].installment.update(interval: @interval, initial_date: @date)
+      installment_movements[0].installment.update(comum_name: @name, interval: @interval, initial_date: @date)
     end
   end
 
   def delete_and_create_installment(installment_movement)
     ActiveRecord::Base.transaction do
+      # Installment.destroy(installment.id)
       binding.pry
       installment_movement
       # deletar installment e movements

@@ -34,8 +34,7 @@ class MovementsController < ApplicationController
   end
 
   def destroy
-    transfer = movement_transfer
-    Movement::SingleMovement.delete(params[:id], transfer)
+    Movement::SingleMovement.delete(params[:id])
 
     redirect_to root_path
   end
@@ -60,6 +59,6 @@ class MovementsController < ApplicationController
   end
 
   def movement_transfer
-    Transfer.where("destiny_id = '#{params[:id]}' or origin_id = '#{params[:id]}'")
+    Transfer.movement_transfer(params[:id])
   end
 end
