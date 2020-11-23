@@ -18,6 +18,7 @@ class MovementsController < ApplicationController
 
   def edit
     transfer = movement_transfer
+    
     redirect_to edit_transfer_path(transfer.first.id) unless transfer.empty?
     @movement = MovementDecorator.new(Movement.find(params[:id])).decorate
 

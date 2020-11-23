@@ -70,6 +70,7 @@ en:
       category: 'Categoria:'
       edit: 'Editar'
       delete: 'Deletar'
+      edit_installment: 'Editar Parcelamento'
 
   installments:
     form_installment:

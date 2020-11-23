@@ -5,7 +5,7 @@
     <%= mov_form.label :value, t('.total_value') %>
     <%= mov_form.number_field :value %>
     <%= mov_form.label :movement_type, t('.type') %>
-    <%= mov_form.select :movement_type, options_for_select(@movement.type_names, @movement.movement_type) %>
+    <%= mov_form.select :movement_type, options_for_select(@comum_params.type_names, @comum_params.movement_type) %>
     <%= mov_form.label :category_id, t('.category') %>
     <%= mov_form.collection_select :category_id, @categories, :id,:name, { prompt: t('.select_category') }%>
     <%= mov_form.label :account_id, t('.account') %>
