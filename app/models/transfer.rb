@@ -13,4 +13,8 @@ class Transfer < ApplicationRecord
   def origin_and_destiny_must_be_different
     errors.add(:destiny, 'must be differente from origin') if origin.account == destiny.account
   end
+
+  def self.movement_transfer(movement_id)
+    where("destiny_id = '#{movement_id}' or origin_id = '#{movement_id}'")
+  end
 end
