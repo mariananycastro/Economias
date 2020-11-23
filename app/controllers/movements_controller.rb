@@ -11,7 +11,7 @@ class MovementsController < ApplicationController
   end
 
   def create
-    Movement.create(params_movement)
+    Movement::SingleMovement.create(params_movement)
 
     redirect_to root_path
   end
@@ -28,20 +28,14 @@ class MovementsController < ApplicationController
   end
 
   def update
-    movement = Movement.find(params[:id])
-    movement.update(params_movement)
+    Movement::SingleMovement.update(params[:id], params_movement)
 
     redirect_to root_path
   end
 
   def destroy
     transfer = movement_transfer
-
-    if transfer.empty?
-      Movement.destroy(params[:id])
-    else
-      Movement::Transfer.delete(transfer)
-    end
+    Movement::SingleMovement.delete(params[:id], transfer)
 
     redirect_to root_path
   end
