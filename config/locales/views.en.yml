@@ -71,6 +71,7 @@ en:
       edit: 'Editar'
       delete: 'Deletar'
       edit_installment: 'Editar Parcelamento'
+      delete_installment: 'Deletar Parcelamento'
 
   installments:
     form_installment:

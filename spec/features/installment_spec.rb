@@ -48,4 +48,186 @@ feature 'installment' do
       expect(InstallmentMovement.last.movement).to eq Movement.second
     end
   end
+
+  describe 'user updates a installment and movements' do
+    let(:accountNu) { create(:account, name: 'CC Nu bank') }
+    let(:accountBB) { create(:account, name: 'CC BB') }
+    let(:category_mercado) { create(:category, name: 'Supermercado') }
+    let(:category_saude) { create(:category, name: 'Saude') }
+
+    let(:mov1) { create(:movement, name: 'Supermercado X (1 x 2)',
+                                   value: 10,
+                                   date: Date.today,
+                                   movement_type: 'expense',
+                                   account_id: accountNu.id,
+                                   category_id: category_mercado.id ) }
+
+    let(:mov2) { create(:movement, name: 'Supermercado X (2 x 2)',
+                                   value: 10,
+                                   date: Date.today + 1.month,
+                                   movement_type: 'expense',
+                                   account_id: accountNu.id,
+                                   category_id: category_mercado.id ) }
+
+    let(:installment) { create(:installment, comum_name: 'Supermercado X', qtd: 2, interval: 'monthly', initial_date: Date.today) }
+    let(:installment_mov1) { create(:installment_movement, installment: installment, movement: mov1, altered: false) }
+    let(:installment_mov2) { create(:installment_movement, installment: installment, movement: mov2, altered: false) }
+    
+    scenario 'change all attributes except qtd installment' do
+      accountNu
+      accountBB
+      category_mercado
+      category_saude
+      mov1
+      mov2
+      installment
+      installment_mov1
+      installment_mov2
+
+      visit root_path
+      click_on 'Criar Transação'
+      click_link('Editar Parcelamento', match: :first)
+      fill_in 'Nome:', with: 'Farmácia X'
+      fill_in 'Valor Total:', with: 20.00
+      select 'Receita', from: 'Tipo:'
+      select 'Saude', from: 'Categoria:'
+      select 'CC BB', from: 'Conta:'
+      fill_in 'Data Inicial:', with: Date.today + 1.day
+      fill_in 'Qtd Parcelas:', with: 2
+      select 'Diaria', from: 'Intervalo entre parcelas:'
+      click_on 'Salvar'
+
+      new_initial_date = Date.today + 1.day
+
+      expect(Movement.count).to eq 2
+      expect(Movement.first.name).to eq 'Farmácia X (1 de 2)'
+      expect(Movement.second.name).to eq 'Farmácia X (2 de 2)'
+
+      Movement.all.each do |mov|
+        expect(mov.value).to eq 10
+        expect(mov.movement_type).to eq 'income'
+        expect(mov.category.name).to eq 'Saude'
+        expect(mov.account.name).to eq 'CC BB'
+      end
+
+      expect(Movement.first.date).to eq new_initial_date
+      expect(Movement.second.date).to eq new_initial_date + 1.day
+
+      expect(Installment.count).to eq 1
+      expect(Installment.first.qtd).to eq 2
+      expect(Installment.first.comum_name).to eq 'Farmácia X'
+      expect(Installment.first.interval).to eq 'daily'
+      expect(Installment.first.initial_date).to eq new_initial_date
+
+      expect(InstallmentMovement.count).to eq 2
+      expect(InstallmentMovement.first.installment).to eq Installment.first
+      expect(InstallmentMovement.second.installment).to eq Installment.first
+
+      expect(InstallmentMovement.first.movement).to eq Movement.first
+      expect(InstallmentMovement.second.movement).to eq Movement.second
+    end
+
+    scenario 'change qtd installment' do
+      accountNu
+      accountBB
+      category_mercado
+      category_saude
+      mov1
+      mov2
+      installment
+      installment_mov1
+      installment_mov2
+
+      visit root_path
+      click_on 'Criar Transação'
+      click_link('Editar Parcelamento', match: :first)
+      fill_in 'Qtd Parcelas:', with: 3
+      click_on 'Salvar'
+
+      expect(Movement.count).to eq 3
+
+      expect(Installment.count).to eq 1
+      expect(Installment.first.qtd).to eq 3
+
+      expect(InstallmentMovement.count).to eq 3
+      expect(InstallmentMovement.first.installment).to eq Installment.first
+      expect(InstallmentMovement.second.installment).to eq Installment.first
+      expect(InstallmentMovement.last.installment).to eq Installment.first
+
+      expect(InstallmentMovement.first.movement).to eq Movement.first
+      expect(InstallmentMovement.second.movement).to eq Movement.second
+      expect(InstallmentMovement.last.movement).to eq Movement.last
+    end
+  end
+
+  describe 'user deletes' do
+    let(:accountNu) { create(:account, name: 'CC Nu bank') }
+    let(:accountBB) { create(:account, name: 'CC BB') }
+    let(:category_mercado) { create(:category, name: 'Supermercado') }
+    let(:category_saude) { create(:category, name: 'Saude') }
+
+    let(:mov1) { create(:movement, name: 'Supermercado X (1 x 2)',
+                                   value: 10,
+                                   date: Date.today,
+                                   movement_type: 'expense',
+                                   account_id: accountNu.id,
+                                   category_id: category_mercado.id ) }
+
+    let(:mov2) { create(:movement, name: 'Supermercado X (2 x 2)',
+                                   value: 10,
+                                   date: Date.today + 1.month,
+                                   movement_type: 'expense',
+                                   account_id: accountNu.id,
+                                   category_id: category_mercado.id ) }
+
+    let(:installment) { create(:installment, comum_name: 'Supermercado X', qtd: 2, interval: 'monthly', initial_date: Date.today) }
+    let(:installment_mov1) { create(:installment_movement, installment: installment, movement: mov1, altered: false) }
+    let(:installment_mov2) { create(:installment_movement, installment: installment, movement: mov2, altered: false) }
+    
+    scenario 'a installment and its movements' do
+      accountNu
+      accountBB
+      category_mercado
+      category_saude
+      mov1
+      mov2
+      installment
+      installment_mov1
+      installment_mov2
+
+      visit root_path
+      click_on 'Criar Transação'
+      click_link('Deletar Parcelamento', match: :first)
+
+      expect(Movement.count).to eq 0
+      expect(Installment.count).to eq 0
+      expect(InstallmentMovement.count).to eq 0
+    end
+
+    scenario 'only one movement' do
+      accountNu
+      accountBB
+      category_mercado
+      category_saude
+      mov1
+      mov2
+      installment
+      installment_mov1
+      installment_mov2
+
+      visit root_path
+      click_on 'Criar Transação'
+      click_link('Deletar', match: :first)
+
+      expect(Movement.count).to eq 1
+      expect(Installment.count).to eq 1
+      expect(Installment.first.qtd).to eq 1
+      expect(Installment.first.initial_date).to eq mov2.date
+      expect(InstallmentMovement.count).to eq 1
+    end
+  end
 end
+# changes only attributes of one movement - altered - alterar apenas um movment
+# Deletes first movement of installment and updates initial date
+# em editar isntallment reduz qtdade de parcelas
+      

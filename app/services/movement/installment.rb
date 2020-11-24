@@ -42,20 +42,23 @@ class Movement::Installment
   end
 
   def self.delete_single_movement(movement_id)
-    binding.pry
-    installment = InstallmentMovement.installment_of_movement(movement_id)
-    movements = InstallmentMovement.movements(installment) #exceto o movement atual
-    initial_date = #menor_data
+    movement = Movement.find(movement_id)
+    installment_movement = movement.installment_movement
+    installment = installment_movement.installment
+
+    movements = InstallmentMovement.movements(installment)
+    movements.delete_if { |mov| mov.id == movement_id.to_i }
+    new_initial_date = (movements.min {|a, b| a.date <=> b.date}).date
 
     ActiveRecord::Base.transaction do
-      Movement.destroy(movement_id)
-      installment.qtd -= 1
-      installment.initial_date = initial_date
-      movement.installment_movement.altered = true
+      InstallmentMovement.destroy(installment_movement.id)
+      installment.update(qtd: installment.qtd - 1, initial_date: new_initial_date)
     end
   end
 
-  def self.delete_installment(installment)
+  def self.delete_installment(installment_movement_id)
+    installment_movement = InstallmentMovement.find(installment_movement_id)
+    installment = installment_movement.installment
     Installment.destroy(installment.id)
   end
 
@@ -112,7 +115,10 @@ class Movement::Installment
         i += 1
       end
       installment = InstallmentMovement.installment_of_movement(movements.first)
-      installment.update(comum_name: @name, interval: @interval, initial_date: @date)
+      installment.update(comum_name: @name,
+                         interval: @interval,
+                         initial_date: @date,
+                         qtd: @installment_qtd)
     end
   end
 

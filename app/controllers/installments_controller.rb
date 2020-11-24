@@ -34,6 +34,12 @@ class InstallmentsController < ApplicationController
     redirect_to root_path
   end
 
+  def destroy
+    Movement::Installment.delete_installment(params[:id])
+
+    redirect_to root_path
+  end
+
   private
 
   def accounts

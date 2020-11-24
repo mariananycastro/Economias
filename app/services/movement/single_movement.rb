@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 # Class responsable for creating, updating and deleting a movement
+# rubocop: disable Style/ClassAndModuleChildren
 class Movement::SingleMovement
+  # rubocop: enable Style/ClassAndModuleChildren
   def self.create(params_movement)
     new.create(params_movement)
   end
@@ -26,15 +28,15 @@ class Movement::SingleMovement
 
   def delete(movement_id)
     transfer = Transfer.movement_transfer(movement_id)
-    installment = InstallmentMovement.installment_of_movement(movement_id)
-
+    movement = Movement.find(movement_id)
+    installment_movement = movement&.installment_movement
     if !transfer.empty?
       Movement::Transfer.delete(transfer)
-    elsif installment
-      Movement::Installment.delete(installment)
+    elsif !installment_movement.nil?
+      Movement::Installment.delete_single_movement(movement_id)
     else
       Movement.destroy(movement_id)
     end
-
   end
 end
+ 
