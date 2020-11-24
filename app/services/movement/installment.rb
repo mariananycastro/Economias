@@ -27,7 +27,7 @@ class Movement::Installment
   end
 
   def create
-    create_installment
+    Installment::Create.create_installment(params_installment, params_movements)
   end
 
   def update
@@ -35,55 +35,25 @@ class Movement::Installment
     movements = InstallmentMovement.movements(installment)
 
     if movements.count == @installment_qtd
-      update_movements_and_installment(movements)
+      Installment::Update.update_movements_and_installment(movements, params_movements, params_installment)
     else
-      delete_and_create_installment(installment.id)
+      Installment::Update.delete_and_create_installment(installment.id, params_installment, params_movements)
     end
+  end
+
+  def self.update_installment(movement)
+    Installment::Update.update_installment(movement)
   end
 
   def self.delete_single_movement(movement_id)
-    movement = Movement.find(movement_id)
-    installment_movement = movement.installment_movement
-    installment = installment_movement.installment
-
-    movements = InstallmentMovement.movements(installment)
-    movements.delete_if { |mov| mov.id == movement_id.to_i }
-    new_initial_date = (movements.min { |a, b| a.date <=> b.date }).date
-
-    ActiveRecord::Base.transaction do
-      InstallmentMovement.destroy(installment_movement.id)
-      installment.update(qtd: installment.qtd - 1, initial_date: new_initial_date)
-    end
+    Installment::Delete.single_movement(movement_id)
   end
 
   def self.delete_installment(installment_movement_id)
-    installment_movement = InstallmentMovement.find(installment_movement_id)
-    installment = installment_movement.installment
-    Installment.destroy(installment.id)
-  end
-  
-  def self.update_installment(movement)
-    installment = movement.installment_movement.installment
-    Movement::InstallmentMovements.altered(movement.installment_movement) if movement.installment_movement
-
-    movements = InstallmentMovement.movements(installment)
-    new_initial_date = (movements.min { |a, b| a.date <=> b.date }).date
-
-    installment.update(initial_date: new_initial_date) if installment.initial_date != new_initial_date
+    Installment::Delete.installment(installment_movement_id)
   end
 
   private
-
-  def create_installment
-    ActiveRecord::Base.transaction do
-      new_installment = Installment.create(params_installment)
-
-      params_movements.each do |params_movement|
-        movement = Movement.create(params_movement)
-        InstallmentMovement.create(installment: new_installment, movement: movement)
-      end
-    end
-  end
 
   def installments_interval
     return 1.day if @interval == 'daily'
@@ -113,30 +83,10 @@ class Movement::Installment
     movements
   end
 
-  def update_movements_and_installment(movements)
-    i = 0
-    build_movement = params_movements
-    ActiveRecord::Base.transaction do
-      while i < movements.count
-        movements[i].update(build_movement[i])
-        i += 1
-      end
-      installment = InstallmentMovement.installment_of_movement(movements.first)
-      installment.update(params_installment)
-    end
-  end
-
   def params_installment
     { comum_name: @name,
       qtd: @installment_qtd,
       interval: @interval,
       initial_date: @date }
-  end
-
-  def delete_and_create_installment(installment_id)
-    ActiveRecord::Base.transaction do
-      Installment.destroy(installment_id)
-      create_installment
-    end
   end
 end
