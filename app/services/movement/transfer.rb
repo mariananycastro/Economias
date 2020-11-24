@@ -2,7 +2,9 @@
 
 # Class responsable for creating, updating and deleting a transfer
 #  and 2 movement (income and expense)
+# rubocop: disable Style/ClassAndModuleChildren
 class Movement::Transfer
+  # rubocop: enable Style/ClassAndModuleChildren
   def self.create(params_origin, params_destiny)
     new.create(params_origin, params_destiny)
   end

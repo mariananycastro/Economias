@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 # Account that holds all simple movement
+# rubocop:disable Style/ClassAndModuleChildren
 class Account::AccountValidator < ActiveModel::Validator
+  # rubocop:enable Style/ClassAndModuleChildren
   OPENING_BALANCE = 0
 
   def validate(account)
