@@ -4,7 +4,7 @@
 # TODO create a transfer with installment
 # rubocop: disable Style/ClassAndModuleChildren
 class Movement::Installment
-  # rubocop: enaable Style/ClassAndModuleChildren
+  # rubocop: enable Style/ClassAndModuleChildren
   def initialize(comum_params, installment_params, id = 0)
     @name = installment_params[:comum_name]
     @installment_qtd = installment_params[:qtd].to_i
@@ -48,7 +48,7 @@ class Movement::Installment
 
     movements = InstallmentMovement.movements(installment)
     movements.delete_if { |mov| mov.id == movement_id.to_i }
-    new_initial_date = (movements.min {|a, b| a.date <=> b.date}).date
+    new_initial_date = (movements.min { |a, b| a.date <=> b.date }).date
 
     ActiveRecord::Base.transaction do
       InstallmentMovement.destroy(installment_movement.id)
@@ -61,15 +61,22 @@ class Movement::Installment
     installment = installment_movement.installment
     Installment.destroy(installment.id)
   end
+  
+  def self.update_installment(movement)
+    installment = movement.installment_movement.installment
+    Movement::InstallmentMovements.altered(movement.installment_movement) if movement.installment_movement
+
+    movements = InstallmentMovement.movements(installment)
+    new_initial_date = (movements.min { |a, b| a.date <=> b.date }).date
+
+    installment.update(initial_date: new_initial_date) if installment.initial_date != new_initial_date
+  end
 
   private
 
   def create_installment
     ActiveRecord::Base.transaction do
-      new_installment = Installment.create(comum_name: @name,
-                                           qtd: @installment_qtd,
-                                           interval: @interval,
-                                           initial_date: @date)
+      new_installment = Installment.create(params_installment)
 
       params_movements.each do |params_movement|
         movement = Movement.create(params_movement)
@@ -115,11 +122,15 @@ class Movement::Installment
         i += 1
       end
       installment = InstallmentMovement.installment_of_movement(movements.first)
-      installment.update(comum_name: @name,
-                         interval: @interval,
-                         initial_date: @date,
-                         qtd: @installment_qtd)
+      installment.update(params_installment)
     end
+  end
+
+  def params_installment
+    { comum_name: @name,
+      qtd: @installment_qtd,
+      interval: @interval,
+      initial_date: @date }
   end
 
   def delete_and_create_installment(installment_id)
