@@ -5,8 +5,17 @@
 # rubocop: disable Style/ClassAndModuleChildren
 class Installment::Delete
   # rubocop: enable Style/ClassAndModuleChildren
+  @@new_instance = new
 
   def self.single_movement(movement_id)
+    get_instance.single_movement(movement_id)
+  end
+
+  def self.get_instance
+    @@new_instance ||= @@new_instance = new
+  end
+
+  def single_movement(movement_id)
     movement = Movement.find(movement_id)
     installment_movement = movement.installment_movement
     installment = installment_movement.installment
@@ -25,7 +34,9 @@ class Installment::Delete
     Installment.destroy(installment.id)
   end
 
-  def self.movements(installment, movement_id)
+  private
+
+  def movements(installment, movement_id)
     movements = InstallmentMovement.movements(installment)
     movements.delete_if { |mov| mov.id == movement_id.to_i }
   end
