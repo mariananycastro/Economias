@@ -5,14 +5,10 @@
 # rubocop: disable Style/ClassAndModuleChildren
 class Installment::Delete
   # rubocop: enable Style/ClassAndModuleChildren
-  @@new_instance = new
+  include Singleton
 
   def self.single_movement(movement_id)
-    get_instance.single_movement(movement_id)
-  end
-
-  def self.get_instance
-    @@new_instance ||= @@new_instance = new
+    instance.single_movement(movement_id)
   end
 
   def single_movement(movement_id)
@@ -29,6 +25,10 @@ class Installment::Delete
   end
 
   def self.installment(installment_movement_id)
+    instance.installment(installment_movement_id)
+  end
+
+  def installment(installment_movement_id)
     installment_movement = InstallmentMovement.find(installment_movement_id)
     installment = installment_movement.installment
     Installment.destroy(installment.id)
