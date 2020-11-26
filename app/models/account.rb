@@ -8,6 +8,8 @@ class Account < ApplicationRecord
   validates :name, uniqueness: true, presence: true
   validates :expiration_type, presence: true
 
+  monetize :initial_value_cents, allow_nil: true
+
   validates_with Account::AccountValidator
 
   enum expiration_type: { short: 0, medium: 10, long: 20 }

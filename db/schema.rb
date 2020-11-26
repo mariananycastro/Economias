@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_23_185348) do
+ActiveRecord::Schema.define(version: 2020_11_26_121530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,9 +22,12 @@ ActiveRecord::Schema.define(version: 2020_11_23_185348) do
   create_table "accounts", force: :cascade do |t|
     t.string "name"
     t.boolean "active", default: true
-    t.decimal "initial_value", default: "0.0"
+    t.decimal "integer", default: "0.0"
     t.bigint "account_type_id"
     t.integer "expiration_type", default: 0
+    t.money "initial_value", scale: 2
+    t.integer "initial_value_cents", default: 0, null: false
+    t.string "initial_value_currency", default: "BRL", null: false
     t.index ["account_type_id"], name: "index_accounts_on_account_type_id"
   end
 
