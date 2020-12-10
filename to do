@@ -1,0 +1,16 @@
+to do
+en:
+  number:
+    currency:
+      format:
+        delimiter: ","
+        separator: "."
+  # falling back to
+  number:
+    format:
+      delimiter: ","
+      separator: "."
+
+testar  valor com 1.002 e ver o q salva
+testa parcelamento com valor 10 /3 parcelas, valor parcelas e valor total
+exigir tipo de moeda e como fazer p alterar moeda

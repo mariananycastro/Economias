@@ -1,0 +1,9 @@
+<% @movements.each do |movement| %>
+  <p> name: <%= movement.name %> </p>
+  <p> value: <%= movement.value %> </p>
+  <p> type: <%= movement.movement_type %> </p>
+  <p> category: <%= movement.category_id %> </p>
+  <p> account: <%= movement.account_id %> </p>
+  <p> initial date: <%= movement.date %> </p>
+<hr>
+<% end %>
